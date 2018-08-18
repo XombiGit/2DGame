@@ -88,6 +88,8 @@ namespace _2DGame.Game
                     nemeses[i].MoveCombatant(nemeses[i].currX, nemeses[i].currY, type);
                     //vertical.MoveCombatant(vertical.currX, vertical.currY, vertical.nemesis);
                     Thread.Sleep(700);
+
+                    //hello there this is a comment
                 }
             }
         }

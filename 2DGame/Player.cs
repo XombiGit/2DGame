@@ -69,6 +69,8 @@ namespace _2DGame
             {
                 prevY = value;
             }
+
+            //Reminder you deleted move
         }
 
         public void MoveCombatant(int row, int col, string move)
@@ -76,7 +78,6 @@ namespace _2DGame
 
             prevX = row;
             prevY = col;
-            Level.setPrevUserCell(Player.prevX, Player.prevY);
 
 
             switch (move)
