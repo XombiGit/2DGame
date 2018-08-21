@@ -77,6 +77,7 @@ namespace _2DGame
             prevX = row;
             prevY = col;
             Level.setPrevUserCell(Player.prevX, Player.prevY);
+            //what the fuck is going on
 
 
             switch (move)
