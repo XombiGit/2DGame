@@ -39,8 +39,8 @@ namespace _2DGame.Game
             nemeses.Add(horizontal);
             nemeses.Add(random);
             nemeses.Add(super);
-            //Countdown counter = new Countdown(5, 60, false);
-            Level level = new Level();
+            Countdown counter = new Countdown(5, 60, false);
+            Level level = new Level(counter);
 
             while (finish != true)
             {
@@ -239,7 +239,7 @@ namespace _2DGame.Game
                 }
 
                 Console.Clear();
-                Level.drawGrid(Level.grid);
+                Level.DrawGrid(Level.grid);
 
                 if (powerFound == true)
                 {
@@ -267,7 +267,7 @@ namespace _2DGame.Game
             else if (endGame == true)
             {
                 Level.setBoardCell(Player.currX, Player.currY, Level.ENEMY);
-                Level.drawGrid(Level.grid);
+                Level.DrawGrid(Level.grid);
                 Console.WriteLine("An enemy has destroyed you.  You have lost the game. :(");
                 Console.ReadLine();
             }

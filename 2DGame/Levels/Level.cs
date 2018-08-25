@@ -25,9 +25,13 @@ namespace _2DGame.Levels
 
         static Random numGen = new Random();
         int pos = numGen.Next(20);
+        public static Countdown Counter = new Countdown(1, 60, false);
 
-        public Level()
+        public Level(Countdown counter)
         {
+            //Initialize Countdown thread in this class
+            //undo static for this class
+            //this.counter = counter;
             setGrid();
             setTreasureCell();
             setPowerCell(7, 5);
@@ -36,10 +40,10 @@ namespace _2DGame.Levels
             setEnemyCell(8, 0);
             setEnemyCell(2, 4);
             setEnemyCell(3, 5);
-            drawGrid(grid);
+            DrawGrid(grid);
         }
 
-        public static void drawGrid(char[,] grid)
+        public static void DrawGrid(char[,] grid)
         {
             Console.SetCursorPosition(0, 0);
             for (int x = 0; x < grid.GetLength(0); x++)
@@ -79,6 +83,7 @@ namespace _2DGame.Levels
                     }
                 }
             }
+            Console.WriteLine("{0}:{1}", Counter.Minute, Counter.Second);
         }
 
         public static void setGrid()
