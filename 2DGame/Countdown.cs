@@ -6,37 +6,38 @@ using System.Threading.Tasks;
 
 namespace _2DGame
 {
-    class Countdown
+    public class Countdown
     {
-        public int minute { get; set; }
-        public int second { get; set; }
-        public bool end { get; set; }
+        public int Minute { get; set; }
+        public int Second { get; set; }
+        public bool End { get; set; }
 
         public Countdown(int minute, int second, bool end)
         {
-            this.minute = minute;
-            this.second = second;
-            this.end = end;
+            Minute = minute;
+            Second = second;
+            End = end;
             //tickTock(this.minute, this.second);
             //Is there away to have a something run on one line while other lines do something else on the console ?
         }
 
-        public void tickTock(int minute, int second)
+        public bool tickTock(int minute, int second)
         {
             for(int x = minute; x >= 0; x--)
             {
-                minute = x;
+                Minute = x;
 
                 for(int y = second; y >= 0; y--)
                 {
-                    second = y;
+                    Second = y;
+                    //Console.SetCursorPosition(0, 11);
                     //Console.Write("\r{0}:{1}", minute, second);
                     System.Threading.Thread.Sleep(1000);
                 }
                     
             }
-
-            end = true;
+            
+            return End = true;
         }
 
         
