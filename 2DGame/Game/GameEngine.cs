@@ -20,6 +20,7 @@ namespace _2DGame.Game
         private static bool powerFound = false;
         private static bool exitFound = false;
         private static bool enemyDestroyed = false;
+        private static bool timeEnd = false;
         private static int count = 0;
         private static int score = 0;
         public static List<Enemy> nemeses = new List<Enemy>();
@@ -36,12 +37,12 @@ namespace _2DGame.Game
             Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
             Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
             Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
+            Countdown counter = new Countdown(0, 20, false);
             nemeses.Add(vertical);
             nemeses.Add(horizontal);
             nemeses.Add(random);
             nemeses.Add(super);
-            //Countdown counter = new Countdown(5, 60, false);
-            Level level = new Level();
+            Level level = new Level(counter);
 
             //
             // Starting enemy thread
@@ -61,8 +62,16 @@ namespace _2DGame.Game
             Thread playerThread = new Thread(() => UpdatePlayer(player));
             playerThread.Name = "Player";
             playerThread.Start();
+
+            Thread counterThread = new Thread(() => UpdateCounter(Level.Counter));
+            counterThread.Name = "Counter";
+            counterThread.Start();
         }
 
+        public static void UpdateCounter(Countdown counter)
+        {
+            timeEnd = counter.tickTock(counter.Minute, counter.Second);
+        }
         /// <summary>
         /// Function that happens in the UpdatePlayer thread
         /// </summary>
@@ -208,9 +217,13 @@ namespace _2DGame.Game
                     }
                 }
 
-                Console.Clear();
-                Level.drawGrid(Level.grid);
-                Thread.Sleep(500);
+                Level.DrawGrid(Level.grid);
+                Thread.Sleep(16);
+
+                if(timeEnd == true)
+                {
+                    CheckGameOutcome();
+                }
 
                 if (powerFound == true)
                 {
@@ -238,8 +251,13 @@ namespace _2DGame.Game
             else if (endGame == true)
             {
                 Level.setBoardCell(Player.currX, Player.currY, Level.ENEMY);
-                Level.drawGrid(Level.grid);
+                Level.DrawGrid(Level.grid);
                 Console.WriteLine("An enemy has destroyed you.  You have lost the game. :(");
+                Console.ReadLine();
+            }
+            else if(timeEnd == true)
+            {
+                Console.WriteLine("You ran out of time. GAME OVER !!!");
                 Console.ReadLine();
             }
         }
