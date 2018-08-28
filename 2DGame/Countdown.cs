@@ -36,7 +36,6 @@ namespace _2DGame
                 }
                     
             }
-            
             return End = true;
         }
 

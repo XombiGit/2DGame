@@ -47,10 +47,13 @@ namespace _2DGame.Game
 
             //
             // Starting enemy thread
-            //
-            Thread verticalEnemyThread = new Thread(() => UpdateEnemyThread(vertical));
-            verticalEnemyThread.Name = "Vertical";
-            verticalEnemyThread.Start();
+            // This is confusing, I need an enemy object to run the thread ??????
+            //Thread verticalEnemyThread = new Thread(() => UpdateEnemyThread(vertical));
+            //verticalEnemyThread.Name = "Vertical";
+            //verticalEnemyThread.Start();
+            Thread enemyThread = new Thread(new ThreadStart(UpdateEnemyThread));
+            enemyThread.Name = "Enemies";
+            enemyThread.Start();
 
             //
             // Starting render thread (redraw level)
@@ -88,7 +91,7 @@ namespace _2DGame.Game
         /// <summary>
         /// Function that happens in the UpdateEnemy Thread
         /// </summary>
-        public static void UpdateEnemyThread(Enemy vertical)
+        public static void UpdateEnemyThread()
         {
             while (finish != true)
             {
