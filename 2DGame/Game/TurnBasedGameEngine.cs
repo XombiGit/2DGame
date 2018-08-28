@@ -39,8 +39,8 @@ namespace _2DGame.Game
             //Level.nemeses.Add(horizontal);
             //Level.nemeses.Add(random);
             //Level.nemeses.Add(super);
-            Countdown counter = new Countdown(5, 60, false);
-            Level level = new Level(counter);
+            //Countdown counter = new Countdown(5, 60, false);
+            Level level = new Level();
             nemeses = Level.enemies;
 
             while (finish != true)

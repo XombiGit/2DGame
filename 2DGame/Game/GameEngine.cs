@@ -34,15 +34,16 @@ namespace _2DGame.Game
         {
             Player player = new Player(0, 0);
             Enemy vertical = new Enemy(0, 6, Enemy.EnemyType.Vertical.ToString());
-            Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
-            Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
-            Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
-            Countdown counter = new Countdown(0, 20, false);
-            nemeses.Add(vertical);
-            nemeses.Add(horizontal);
-            nemeses.Add(random);
-            nemeses.Add(super);
-            Level level = new Level(counter);
+            //Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
+            //Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
+            //Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
+            //Countdown counter = new Countdown(0, 20, false);
+            //nemeses.Add(vertical);
+            //nemeses.Add(horizontal);
+            //nemeses.Add(random);
+            //nemeses.Add(super);
+            Level level = new Level();
+            nemeses = Level.enemies;
 
             //
             // Starting enemy thread

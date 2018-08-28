@@ -13,8 +13,8 @@ namespace _2DGame
     {
         static void Main(string[] args)
         {
-            //IGameEngine begin = new GameEngine();
-            IGameEngine begin = new TurnBasedGameEngine();
+            IGameEngine begin = new GameEngine();
+            //IGameEngine begin = new TurnBasedGameEngine();
         }
     } 
 }
