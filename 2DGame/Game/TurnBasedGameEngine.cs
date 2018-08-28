@@ -238,7 +238,7 @@ namespace _2DGame.Game
                     }
                 }
 
-                Console.Clear();
+                //Console.Clear();
                 Level.DrawGrid(Level.grid);
 
                 if (powerFound == true)
