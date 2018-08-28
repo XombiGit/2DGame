@@ -27,7 +27,7 @@ namespace _2DGame.Levels
         int pos = numGen.Next(20);
         public static Countdown Counter = new Countdown(1, 60, false);
 
-        public Level(Countdown counter)
+        public Level()
         {
             //Initialize Countdown thread in this class
             //undo static for this class

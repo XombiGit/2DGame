@@ -40,7 +40,7 @@ namespace _2DGame.Game
             nemeses.Add(random);
             nemeses.Add(super);
             Countdown counter = new Countdown(5, 60, false);
-            Level level = new Level(counter);
+            Level level = new Level();
 
             while (finish != true)
             {

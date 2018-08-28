@@ -37,12 +37,12 @@ namespace _2DGame.Game
             Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
             Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
             Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
-            Countdown counter = new Countdown(0, 20, false);
+            //Countdown counter = new Countdown(0, 20, false);
             nemeses.Add(vertical);
             nemeses.Add(horizontal);
             nemeses.Add(random);
             nemeses.Add(super);
-            Level level = new Level(counter);
+            Level level = new Level();
 
             //
             // Starting enemy thread
