@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _2DGame.Enemies;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace _2DGame.Levels
 {
 
-    class Level
+    public class Level
     {
         public const char PLAYER = '1';
         public const char TREASURE = '$';
@@ -22,12 +23,23 @@ namespace _2DGame.Levels
         public static bool[,] enemyCell = new bool[10, 10];
         public static bool[,] powerCell = new bool[10, 10];
         public static bool[,] exitCell = new bool[10, 10];
+        public static List<Enemy> enemies = new List<Enemy>();
 
         static Random numGen = new Random();
         int pos = numGen.Next(20);
 
         public Level()
         {
+            //Player player = new Player(0, 0);
+            Enemy vertical = new Enemy(0, 6, Enemy.EnemyType.Vertical.ToString());
+            Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
+            Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
+            Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
+            enemies.Add(vertical);
+            enemies.Add(horizontal);
+            enemies.Add(random);
+            enemies.Add(super);
+
             setGrid();
             setTreasureCell();
             setPowerCell(7, 5);

@@ -31,16 +31,17 @@ namespace _2DGame.Game
         public void Initiate()
         {
             Player player = new Player(0, 0);
-            Enemy vertical = new Enemy(0, 6, Enemy.EnemyType.Vertical.ToString());
-            Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
-            Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
-            Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
-            nemeses.Add(vertical);
-            nemeses.Add(horizontal);
-            nemeses.Add(random);
-            nemeses.Add(super);
+            //Enemy vertical = new Enemy(0, 6, Enemy.EnemyType.Vertical.ToString());
+            //Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
+            //Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
+            //Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
+            //Level.nemeses.Add(vertical);
+            //Level.nemeses.Add(horizontal);
+            //Level.nemeses.Add(random);
+            //Level.nemeses.Add(super);
             //Countdown counter = new Countdown(5, 60, false);
             Level level = new Level();
+            nemeses = Level.enemies;
 
             while (finish != true)
             {
@@ -238,7 +239,7 @@ namespace _2DGame.Game
                     }
                 }
 
-                Console.Clear();
+                //Console.Clear();
                 Level.drawGrid(Level.grid);
 
                 if (powerFound == true)
