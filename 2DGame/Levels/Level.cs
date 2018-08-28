@@ -24,11 +24,12 @@ namespace _2DGame.Levels
         public static bool[,] powerCell = new bool[10, 10];
         public static bool[,] exitCell = new bool[10, 10];
         public static List<Enemy> enemies = new List<Enemy>();
+        Countdown counter = new Countdown(0, 20, false);
 
         static Random numGen = new Random();
         int pos = numGen.Next(20);
 
-        public Level()
+        public Level(Countdown counter)
         {
             //Player player = new Player(0, 0);
             Enemy vertical = new Enemy(0, 6, Enemy.EnemyType.Vertical.ToString());
@@ -48,10 +49,10 @@ namespace _2DGame.Levels
             setEnemyCell(8, 0);
             setEnemyCell(2, 4);
             setEnemyCell(3, 5);
-            drawGrid(grid);
+            DrawGrid(grid);
         }
 
-        public static void drawGrid(char[,] grid)
+        public static void DrawGrid(char[,] grid)
         {
             Console.SetCursorPosition(0, 0);
             for (int x = 0; x < grid.GetLength(0); x++)
