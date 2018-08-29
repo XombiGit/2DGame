@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataParsers\CustomDataParser.cs" />
+    <Compile Include="DataParsers\IDataParser.cs" />
     <Compile Include="Enemies\ICombatant.cs" />
     <Compile Include="Countdown.cs" />
     <Compile Include="Enemies\Enemy.cs" />

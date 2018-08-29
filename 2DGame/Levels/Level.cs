@@ -24,7 +24,7 @@ namespace _2DGame.Levels
         public static bool[,] powerCell = new bool[10, 10];
         public static bool[,] exitCell = new bool[10, 10];
         public static List<Enemy> enemies = new List<Enemy>();
-        public static Countdown Counter = new Countdown(0, 20, false);
+        public static Countdown Counter = new Countdown(3, 60, false);
 
         static Random numGen = new Random();
         int pos = numGen.Next(20);
@@ -92,7 +92,15 @@ namespace _2DGame.Levels
                     }
                 }
             }
-            Console.Write("\r{0}:{1}", Counter.Minute, Counter.Second);
+            if (Counter.Second == 60)
+            {
+                //There is an issue with the time shortening down to 3 digits instead of 4.  Leftover 0
+                Console.Write("\r{0}:00", Counter.Minute);
+            }
+            else
+            {
+                Console.Write("\r{0:D1}:{1:D2}", Counter.Minute, Counter.Second);
+            }
         }
 
         public static void setGrid()

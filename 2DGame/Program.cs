@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _2DGame.DataParsers;
 
 namespace _2DGame
 {
@@ -13,8 +14,11 @@ namespace _2DGame
     {
         static void Main(string[] args)
         {
-            IGameEngine begin = new GameEngine();
+            //IGameEngine begin = new GameEngine();
             //IGameEngine begin = new TurnBasedGameEngine();
+            CustomDataParser parse = new CustomDataParser();
+            parse.ReadFile();
+            Console.ReadLine();
         }
     } 
 }
