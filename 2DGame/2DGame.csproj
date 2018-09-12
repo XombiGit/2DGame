@@ -54,9 +54,13 @@
     <Compile Include="Levels\ILevel.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Obstacles\Obstacle.cs" />
+    <Compile Include="Players\IPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Players\Player.cs" />
+    <Compile Include="StationaryItems\IStationaryItems.cs" />
+    <Compile Include="StationaryItems\PowerUp.cs" />
+    <Compile Include="StationaryItems\Treasure.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

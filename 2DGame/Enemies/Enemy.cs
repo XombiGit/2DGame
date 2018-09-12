@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace _2DGame.Enemies
 {
+    public enum EnemyType { Vertical, Horizontal, Random, Super };
+
+
     public class Enemy : ICombatant
     {
-        public enum EnemyType{Vertical, Horizontal, Random, Super};
         public int currX = 0;
         public int currY = 0;
         public int prevX = 0;
@@ -19,16 +21,16 @@ namespace _2DGame.Enemies
         public static bool dirHoriz = false;
         public bool powerUnchanged = false;
         public bool treasureUnchanged = false;
-        public string nemesis;
+        public EnemyType nemesis;
         static Random numGen = new Random();
         int pos = 0;
 
-        public Enemy(int row, int col, string type)
+        public Enemy(int row, int col, EnemyType type)
         {
             nemesis = type;
             currX = row;
             currY = col;
-            Level.setEnemyCell(currX, currY);
+            //Level.setEnemyCell(currX, currY, Level.grid);
             //MoveCombatant(currX, currY, enemy.ToString());
         }
 
@@ -44,7 +46,7 @@ namespace _2DGame.Enemies
             }
         }
 
-        public string enemyType
+        public EnemyType enemyType
         {
             get
             {
@@ -105,26 +107,26 @@ namespace _2DGame.Enemies
             }
         }
 
-        public void MoveCombatant(int row, int col, string enemy)
+        public void MoveCombatant(int row, int col, EnemyType enemy)
         {
             Thread current = Thread.CurrentThread;
             nemesis = enemy;
            
             switch(nemesis)
             {
-                case "Vertical":
+                case EnemyType.Vertical:
                     verticalEnemyMove(row);
                     break;
 
-                case "Horizontal":
+                case EnemyType.Horizontal:
                     horizontalEnemyMove(col);
                     break;
 
-                case "Random":
+                case EnemyType.Random:
                     randomEnemyMove(row, col);
                     break;
 
-                case "Super":
+                case EnemyType.Super:
                     randomEnemyMove(row, col);
                     break;
 
@@ -208,9 +210,9 @@ namespace _2DGame.Enemies
                 //Level.setBoardCell(currX, currY, Level.ENEMY);
                 //Level.setBoardCell(prevX, prevY, Level.EMPTY);
                 Level.setBoardCell(prevX, prevY, Level.EMPTY);
+
                 Level.setBoardCell(currX, currY, Level.ENEMY);
                 treasureUnchanged = true;
-
             }
             else if(Level.grid[currX, currY] == Level.POWER)
             {

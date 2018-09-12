@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using _2DGame.DataParsers;
+using _2DGame.StationaryItems;
 
 namespace _2DGame.Game
 {
@@ -24,6 +26,9 @@ namespace _2DGame.Game
         private static int count = 0;
         private static int score = 0;
         public static List<Enemy> nemeses = new List<Enemy>();
+        public List<Treasure> valuables = new List<Treasure>();
+        public List<PowerUp> abilities = new List<PowerUp>();
+        string DataFile = @"C:\Users\UnknownUser\Desktop\LevelParameters.txt";
 
         public GameEngine()
         {
@@ -33,17 +38,17 @@ namespace _2DGame.Game
         public void Initiate()
         {
             Player player = new Player(0, 0);
-            Enemy vertical = new Enemy(0, 6, Enemy.EnemyType.Vertical.ToString());
-            //Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
-            //Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
-            //Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
-            //Countdown counter = new Countdown(0, 20, false);
-            //nemeses.Add(vertical);
-            //nemeses.Add(horizontal);
-            //nemeses.Add(random);
-            //nemeses.Add(super);
-            Level level = new Level();
-            nemeses = Level.enemies;
+            CustomDataParser Parser = new CustomDataParser();
+            string[] Filename = Parser.ReadFile(DataFile);
+            char[,] Matrix = Parser.ParseGridSize(Filename);
+
+            //nemeses = Parser.ParseEnemies(Filename);
+            valuables = Parser.ParseTreasure(Filename);
+            abilities = Parser.ParsePower(Filename);
+            Level level = new Level(Matrix, nemeses, valuables, abilities);
+
+            //Level level = new Level(Parser.ParseGridSize(Parser.ReadFile(DataFile)));
+            //nemeses = Level.enemies;
 
             //
             // Starting enemy thread
@@ -97,7 +102,7 @@ namespace _2DGame.Game
             {
                 for(int i = 0; i <= nemeses.Count-1; i++)
                 {
-                    string type = nemeses[i].enemyType;
+                    EnemyType type = nemeses[i].enemyType;
                     nemeses[i].MoveCombatant(nemeses[i].currX, nemeses[i].currY, type);
                     //vertical.MoveCombatant(vertical.currX, vertical.currY, vertical.nemesis);
                     Thread.Sleep(700);

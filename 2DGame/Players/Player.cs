@@ -1,5 +1,6 @@
 ﻿using _2DGame.Enemies;
 using _2DGame.Levels;
+using _2DGame.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace _2DGame
 {
-    public class Player : ICombatant
+    public class Player : IPlayer
     {
         public static int currX = 0;
         public static int currY = 0;
@@ -21,9 +22,9 @@ namespace _2DGame
         {
             currX = row;
             currY = col;
-            Level.setUserCell(currX, currY);
+            //Level.setUserCell(currX, currY);
         }
-        int ICombatant.row
+        int IPlayer.row
         {
             get
             {
@@ -35,7 +36,7 @@ namespace _2DGame
             }
         }
 
-        int ICombatant.col
+        int IPlayer.col
         {
             get
             {
@@ -47,7 +48,7 @@ namespace _2DGame
             }
         }
 
-        int ICombatant.prevRow
+        int IPlayer.prevRow
         {
             get
             {
@@ -59,7 +60,7 @@ namespace _2DGame
             }
         }
 
-        int ICombatant.prevCol
+        int IPlayer.prevCol
         {
             get
             {

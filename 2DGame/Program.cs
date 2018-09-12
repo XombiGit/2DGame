@@ -10,15 +10,16 @@ using _2DGame.DataParsers;
 
 namespace _2DGame
 {
-    class Program
+    public class Program
     {
+        //static string DataFile = @"C:\Users\UnknownUser\Desktop\LevelParameters.txt";
         static void Main(string[] args)
         {
+            //CustomDataParser parse = new CustomDataParser();
+            //parse.ReadFile(DataFile);
             //IGameEngine begin = new GameEngine();
-            //IGameEngine begin = new TurnBasedGameEngine();
-            CustomDataParser parse = new CustomDataParser();
-            parse.ReadFile();
-            Console.ReadLine();
+            IGameEngine begin = new TurnBasedGameEngine();
+            //Console.ReadLine();
         }
     } 
 }

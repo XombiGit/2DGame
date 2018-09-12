@@ -1,4 +1,6 @@
-﻿using System;
+﻿using _2DGame.Enemies;
+using _2DGame.StationaryItems;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +15,11 @@ namespace _2DGame.DataParsers
         int NumTreasures { get; set; }
         int NumPowers { get; set; }
 
-        void ReadFile();
+        string[] ReadFile(string filename);
         void ParseLevel(string[] splitArray);
-        void ParseEnemies(string[] splitArray);
-        void ParseTreasure(string[] splitArray);
-        void ParsePowers(string[] splitArray);
+        List<List<Enemy>> ParseEnemies(string[] splitArray);
+        List<Treasure> ParseTreasure(string[] splitArray);
+        List<PowerUp> ParsePower(string[] splitArray);
+        char[,] ParseGridSize(string[] splitArray);
     }
 }
