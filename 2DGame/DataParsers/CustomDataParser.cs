@@ -17,13 +17,9 @@ namespace _2DGame.DataParsers
         public string[] splitter;
         //public List<Enemy> adversaries = new List<Enemy>();
         public List<List<Enemy>> Antagonists = new List<List<Enemy>>();
-        public List<PowerUp> potentials = new List<PowerUp>();
-        public List<Treasure> fortunes = new List<Treasure>();
-
-        public int NumLevels { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int NumEnemies { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int NumTreasures { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int NumPowers { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<List<Treasure>> Prizes = new List<List<Treasure>>();
+        public List<List<PowerUp>> Serums = new List<List<PowerUp>>();
+        public List<char[,]> Dimensions = new List<char[,]>();
 
         public List<List<Enemy>> ParseEnemies(string[] splitArray)
         {
@@ -60,67 +56,84 @@ namespace _2DGame.DataParsers
             //return adversaries;
         }
 
-        public char[,] ParseGridSize(string[] splitArray)
+        public List<char[,]> ParseGridSize(string[] splitArray)
         {
             string GridDimensions = splitArray[2];
-            string[] GridSplit = GridDimensions.Split('\n');
+            string[] GridSplitOne = GridDimensions.Split('\n');
 
-            string Testing = GridSplit[1];
-            string[] TestingGrid = Testing.Split(',');
-            char[,] Size = new char[Int32.Parse(TestingGrid[0]), Int32.Parse(TestingGrid[1])];
-            return Size;
+            for (int i = 1; i <= Int32.Parse(splitArray[0]); i++)
+            {
+                string GridPoints = GridSplitOne[i];
+                //string[] GridSplitTwo = GridPoints.Split(';');
+                //int j = 0;
+                //List<char[,]> dimensions  = new List<char[,]>();
+
+            
+                //string GridNum = GridSplitTwo[i];
+                string[] GridSplitTwo = GridPoints.Split(',');
+                int XPos = Int32.Parse(GridSplitTwo[0]);
+                int YPos = Int32.Parse(GridSplitTwo[1]);
+                //EnemyType enemyType = (EnemyType)Int32.Parse(EnemySplitThree[2]);
+                char[,] axis = new char[XPos, YPos];
+                //Enemy villain = new Enemy(XPos, YPos, enemyType);
+                Dimensions.Add(axis);
+            }
+            
+            return Dimensions;
         }
 
-        public void ParseLevel(string[] splitArray)
+        public int ParseLevel(string[] splitArray)
         {
-            string LevelIDs = splitArray[1];
-            string[] LevelSplit = LevelIDs.Split('\n');
-
-            //if (LevelSplit[0].Equals("levelID"))
-            //{
-                for (int i = 1; i < LevelSplit.Length; i++)
-                {
-                    Console.WriteLine(LevelSplit[i]);
-                }
-            //}
+            int LevelNum = Int32.Parse(splitArray[0]);
+            return LevelNum;
         }
 
-        public List<PowerUp> ParsePower(string[] splitArray)
+        public List<List<PowerUp>> ParsePower(string[] splitArray)
         {
             string Powers = splitArray[5];
             string[] PowersSplitOne = Powers.Split('\n');
 
-            string PowerPoints = PowersSplitOne[1];
-            string[] PowersSplitTwo = PowerPoints.Split(';');
-            //int j = 0;
-            for (int i = 1; i <= Int32.Parse(PowersSplitTwo[0]); i++)
+            for (int j = 1; j <= Int32.Parse(splitArray[0]); j++)
             {
-                string PowerNum = PowersSplitTwo[i];
-                string[] PowersSplitThree = PowerNum.Split(',');
-                PowerUp energy = new PowerUp(Int32.Parse(PowersSplitThree[0]), Int32.Parse(PowersSplitThree[1]));
-                potentials.Add(energy);
-            }
+                string PowerPoints = PowersSplitOne[j];
+                string[] PowersSplitTwo = PowerPoints.Split(';');
+                List<PowerUp> potentials = new List<PowerUp>();
+                //int j = 0;
+                for (int i = 1; i <= Int32.Parse(PowersSplitTwo[0]); i++)
+                {
+                    string PowerNum = PowersSplitTwo[i];
+                    string[] PowersSplitThree = PowerNum.Split(',');
+                    PowerUp energy = new PowerUp(Int32.Parse(PowersSplitThree[0]), Int32.Parse(PowersSplitThree[1]));
+                    potentials.Add(energy);
+                }
 
-            return potentials;
+                Serums.Add(potentials);
+            }
+            return Serums;
         }
 
-        public List<Treasure> ParseTreasure(string[] splitArray)
+        public List<List<Treasure>> ParseTreasure(string[] splitArray)
         {
             string Treasures = splitArray[4];
             string[] TreasuresSplitOne = Treasures.Split('\n');
 
-            string TreasurePoints = TreasuresSplitOne[1];
-            string[] TreasuresSplitTwo = TreasurePoints.Split(';');
-            //int j = 0;
-            for (int i = 1; i <= Int32.Parse(TreasuresSplitTwo[0]); i++)
+            for (int j = 1; j <= Int32.Parse(splitArray[0]); j++)
             {
-                string TreasureNum = TreasuresSplitTwo[i];
-                string[] TreasuresSplitThree = TreasureNum.Split(',');
-                Treasure precious = new Treasure(Int32.Parse(TreasuresSplitThree[0]), Int32.Parse(TreasuresSplitThree[1]));
-                fortunes.Add(precious);
-            }
+                string TreasurePoints = TreasuresSplitOne[1];
+                string[] TreasuresSplitTwo = TreasurePoints.Split(';');
+                List<Treasure> fortunes = new List<Treasure>();
+           
+                for (int i = 1; i <= Int32.Parse(TreasuresSplitTwo[0]); i++)
+                {
+                    string TreasureNum = TreasuresSplitTwo[i];
+                    string[] TreasuresSplitThree = TreasureNum.Split(',');
+                    Treasure precious = new Treasure(Int32.Parse(TreasuresSplitThree[0]), Int32.Parse(TreasuresSplitThree[1]));
+                    fortunes.Add(precious);
+                }
 
-            return fortunes;
+                Prizes.Add(fortunes);
+            }
+            return Prizes;
         }
 
         public string[] ReadFile(string filename)

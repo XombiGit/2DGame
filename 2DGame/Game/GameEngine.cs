@@ -40,12 +40,12 @@ namespace _2DGame.Game
             Player player = new Player(0, 0);
             CustomDataParser Parser = new CustomDataParser();
             string[] Filename = Parser.ReadFile(DataFile);
-            char[,] Matrix = Parser.ParseGridSize(Filename);
-
+            //char[,] Matrix = Parser.ParseGridSize(Filename);
+            char[,] Matrix = new char[10, 10];
             //nemeses = Parser.ParseEnemies(Filename);
-            valuables = Parser.ParseTreasure(Filename);
-            abilities = Parser.ParsePower(Filename);
-            Level level = new Level(Matrix, nemeses, valuables, abilities);
+            //valuables = Parser.ParseTreasure(Filename);
+            //abilities = Parser.ParsePower(Filename);
+            //Level level = new Level(Matrix, nemeses, valuables, abilities);
 
             //Level level = new Level(Parser.ParseGridSize(Parser.ReadFile(DataFile)));
             //nemeses = Level.enemies;

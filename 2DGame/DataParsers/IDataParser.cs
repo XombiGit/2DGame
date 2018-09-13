@@ -10,16 +10,11 @@ namespace _2DGame.DataParsers
 {
     interface IDataParser
     {
-        int NumLevels { get; set; }
-        int NumEnemies { get; set; }
-        int NumTreasures { get; set; }
-        int NumPowers { get; set; }
-
         string[] ReadFile(string filename);
-        void ParseLevel(string[] splitArray);
+        int ParseLevel(string[] splitArray);
         List<List<Enemy>> ParseEnemies(string[] splitArray);
-        List<Treasure> ParseTreasure(string[] splitArray);
-        List<PowerUp> ParsePower(string[] splitArray);
-        char[,] ParseGridSize(string[] splitArray);
+        List<List<Treasure>> ParseTreasure(string[] splitArray);
+        List<List<PowerUp>> ParsePower(string[] splitArray);
+        List<char[,]> ParseGridSize(string[] splitArray);
     }
 }
