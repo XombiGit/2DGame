@@ -13,7 +13,8 @@ namespace _2DGame.Game
 {
     class TurnBasedGameEngine : IGameEngine
     {
-        private static int treasureCount = 0;
+        private int treasureCount = 0;
+        private int TreasureTotal;
         private static String error = "You've hit a wall.  TRY AGAIN";
         private static bool endGame = false;
         private static bool winGame = false;
@@ -49,6 +50,7 @@ namespace _2DGame.Game
             {
                 finish = false;
                 Player player = new Player(0, 0);
+                //TreasureTotal = Parser.TreasureCount;
 
                 Cells = Parser.ParseGridSize(Filename);
                 Matrix = Cells.ElementAt(x);
@@ -175,7 +177,7 @@ namespace _2DGame.Game
                             //Level.setBoardCell(Player.currX, Player.currY, Level.EMPTY);
                             treasureCount++;
 
-                            if (treasureCount == 5)
+                            if (treasureCount == TreasureTotal)
                             {
                                 //winGame = true;
                                 //CheckGameOutcome();

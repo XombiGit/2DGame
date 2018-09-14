@@ -10,6 +10,7 @@ namespace _2DGame.DataParsers
 {
     interface IDataParser
     {
+        int TreasureCount { get; set; }
         string[] ReadFile(string filename);
         int ParseLevel(string[] splitArray);
         List<List<Enemy>> ParseEnemies(string[] splitArray);

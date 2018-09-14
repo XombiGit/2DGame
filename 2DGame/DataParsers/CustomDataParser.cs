@@ -15,11 +15,26 @@ namespace _2DGame.DataParsers
         public List<Level> Levels = new List<Level>();
         public List<string> SplitTest = new List<string>();
         public string[] splitter;
-        //public List<Enemy> adversaries = new List<Enemy>();
+
         public List<List<Enemy>> Antagonists = new List<List<Enemy>>();
         public List<List<Treasure>> Prizes = new List<List<Treasure>>();
         public List<List<PowerUp>> Serums = new List<List<PowerUp>>();
         public List<char[,]> Dimensions = new List<char[,]>();
+        public int TreasureNum = 0;
+
+
+        public int TreasureCount
+        {
+            get
+            {
+                return TreasureNum;
+            }
+
+            set
+            {
+                TreasureNum = value;
+            }
+        }
 
         public List<List<Enemy>> ParseEnemies(string[] splitArray)
         {
@@ -116,6 +131,7 @@ namespace _2DGame.DataParsers
         {
             string Treasures = splitArray[4];
             string[] TreasuresSplitOne = Treasures.Split('\n');
+            //TreasureNum = Int32.Parse(splitArray[0]);
 
             for (int j = 1; j <= Int32.Parse(splitArray[0]); j++)
             {

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2DGame", "2DGame\2DGame.csproj", "{2F4EF6F1-1492-4043-B74C-FC81A47F0ADC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITest", "..\GUITest\GUITest\GUITest.csproj", "{58A7EB0A-E3F7-4480-A807-69F80AEC4C43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2F4EF6F1-1492-4043-B74C-FC81A47F0ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F4EF6F1-1492-4043-B74C-FC81A47F0ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F4EF6F1-1492-4043-B74C-FC81A47F0ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58A7EB0A-E3F7-4480-A807-69F80AEC4C43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A7EB0A-E3F7-4480-A807-69F80AEC4C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A7EB0A-E3F7-4480-A807-69F80AEC4C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A7EB0A-E3F7-4480-A807-69F80AEC4C43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
