@@ -20,11 +20,6 @@ namespace _2DGame.Levels
         public const char EXIT = '^';
         public const char EMPTY = '0';
 
-        //public static bool[,] treasureCell = new bool[10, 10];
-        //public static bool[,] userCell = new bool[10, 10];
-        //public static bool[,] enemyCell = new bool[10, 10];
-        //public static bool[,] powerCell = new bool[10, 10];
-        //public static bool[,] exitCell = new bool[10, 10];
         public static List<Enemy> enemies = new List<Enemy>();
         public static List<PowerUp> powers = new List<PowerUp>();
         public static List<Treasure> treasures = new List<Treasure>();
@@ -38,45 +33,18 @@ namespace _2DGame.Levels
         static Random numGen = new Random();
         int pos = numGen.Next(20);
 
-        string DataFile = @"C:\Users\UnknownUser\Desktop\LevelParameters.txt";
-        CustomDataParser Data = new CustomDataParser();
-
         public Level(char[,] GridSize, List<Enemy> Opponents, List<Treasure> Riches, List<PowerUp> Skills)
         {
-            //Player player = new Player(0, 0);
-            //Enemy vertical = new Enemy(0, 6, Enemy.EnemyType.Vertical.ToString());
-            //Enemy horizontal = new Enemy(8, 0, Enemy.EnemyType.Horizontal.ToString());
-            //Enemy random = new Enemy(2, 4, Enemy.EnemyType.Random.ToString());
-            //Enemy super = new Enemy(3, 5, Enemy.EnemyType.Super.ToString());
-            //enemies.Add(vertical);
-            //enemies.Add(horizontal);
-            //enemies.Add(random);
-            //enemies.Add(super);
-            //grid = new char[10, 10];
             grid = GridSize;
             enemies = Opponents;
             treasures = Riches;
             powers = Skills;
 
             setGrid(grid);
-            //Data.ReadFile(DataFile);
-            //ParseEnemies(splitter);
-            //ParseTreasure(splitter);
-            //ParsePower(splitter);
-
             setupEnemies(enemies, grid);
             setTreasureCell(treasures, grid);
             setPowerCell(powers, grid);
             setUserCell(0, 0, grid);
-
-            //for(int i = 0; i < enemies.Count; i++)
-            //{
-                //setEnemyCell(enemies[i].currX, enemies[i].currY);
-            //}
-            //setEnemyCell(0, 6);
-            //setEnemyCell(8, 0);
-            //setEnemyCell(2, 4);
-            //setEnemyCell(3, 5);
             DrawGrid(grid);
         }
 

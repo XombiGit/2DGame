@@ -20,21 +20,7 @@ namespace _2DGame.DataParsers
         public List<List<Treasure>> Prizes = new List<List<Treasure>>();
         public List<List<PowerUp>> Serums = new List<List<PowerUp>>();
         public List<char[,]> Dimensions = new List<char[,]>();
-        public int TreasureNum = 0;
-
-
-        public int TreasureCount
-        {
-            get
-            {
-                return TreasureNum;
-            }
-
-            set
-            {
-                TreasureNum = value;
-            }
-        }
+        public List<int> TreasureLoad = new List<int>();
 
         public List<List<Enemy>> ParseEnemies(string[] splitArray)
         {
@@ -131,11 +117,10 @@ namespace _2DGame.DataParsers
         {
             string Treasures = splitArray[4];
             string[] TreasuresSplitOne = Treasures.Split('\n');
-            //TreasureNum = Int32.Parse(splitArray[0]);
 
             for (int j = 1; j <= Int32.Parse(splitArray[0]); j++)
             {
-                string TreasurePoints = TreasuresSplitOne[1];
+                string TreasurePoints = TreasuresSplitOne[j];
                 string[] TreasuresSplitTwo = TreasurePoints.Split(';');
                 List<Treasure> fortunes = new List<Treasure>();
            
@@ -150,6 +135,21 @@ namespace _2DGame.DataParsers
                 Prizes.Add(fortunes);
             }
             return Prizes;
+        }
+
+        public List<int> ParseTreasureCount(string[] splitArray)
+        {
+            string TreasureCount = splitArray[4];
+            string[] TreasureCountSplitOne = TreasureCount.Split('\n');
+
+            for (int j = 1; j <= Int32.Parse(splitArray[0]); j++)
+            {
+                string TreasureCountPoints = TreasureCountSplitOne[j];
+                string[] TreasureCountSplitTwo = TreasureCountPoints.Split(';');
+                TreasureLoad.Add(Int32.Parse(TreasureCountSplitTwo[0]));
+            }
+
+            return TreasureLoad;
         }
 
         public string[] ReadFile(string filename)

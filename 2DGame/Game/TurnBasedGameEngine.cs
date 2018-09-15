@@ -28,6 +28,7 @@ namespace _2DGame.Game
         public List<List<Treasure>> Cache = new List<List<Treasure>>();
         public List<List<PowerUp>> Booster = new List<List<PowerUp>>();
         public List<char[,]> Cells = new List<char[,]>();
+        public List<int> TreasureMax = new List<int>();
 
         public static List<Enemy> nemeses = new List<Enemy>();
         public List<Treasure> valuables = new List<Treasure>();
@@ -46,11 +47,14 @@ namespace _2DGame.Game
             CustomDataParser Parser = new CustomDataParser();
             string[] Filename = Parser.ReadFile(DataFile);
             int Count = Parser.ParseLevel(Filename);
+
             for (int x = 0; x < Count; x++)
             {
                 finish = false;
                 Player player = new Player(0, 0);
-                //TreasureTotal = Parser.TreasureCount;
+
+                TreasureMax = Parser.ParseTreasureCount(Filename);
+                TreasureTotal = TreasureMax.ElementAt(x);
 
                 Cells = Parser.ParseGridSize(Filename);
                 Matrix = Cells.ElementAt(x);
@@ -245,10 +249,11 @@ namespace _2DGame.Game
 
         }
 
-        public static void CheckGameOutcome()
+        public void CheckGameOutcome()
         {
             if (winGame == true)
             {
+                treasureCount = 0;
                 Console.WriteLine("You collected all treasure and escaped the maze. CONGRATULATIONS champion !!!");
                 Console.WriteLine("Score: {0} points", score);
                 Thread.Sleep(3000);

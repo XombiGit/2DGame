@@ -17,8 +17,5 @@ namespace _2DGame.Levels
         List<Enemy> Foes { get; set; }
         List<Treasure> Gems { get; set; }
         List<PowerUp> Enhancers { get; set; }
-       
-
-
     }
 }
