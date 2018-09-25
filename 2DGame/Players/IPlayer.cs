@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _2DGame.Levels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,6 @@ namespace _2DGame.Players
         int prevRow { get; set; }
         int prevCol { get; set; }
 
-        void MoveCombatant(int row, int col, string move);
+        void MoveCombatant(Level level, int row, int col, string move);
     }
 }

@@ -24,28 +24,41 @@ namespace _2DGame.Levels
         public static List<PowerUp> powers = new List<PowerUp>();
         public static List<Treasure> treasures = new List<Treasure>();
 
-        public static Countdown Counter = new Countdown(3, 60, false);
         public static int length = 0;
         public static int width = 0;
         public int LevelNum = 0;
-        public static char[,] grid;
+        public char[,] grid;
 
         static Random numGen = new Random();
         int pos = numGen.Next(20);
 
         public Level(char[,] GridSize, List<Enemy> Opponents, List<Treasure> Riches, List<PowerUp> Skills)
         {
+
             grid = GridSize;
             enemies = Opponents;
             treasures = Riches;
             powers = Skills;
 
-            setGrid(grid);
+            clearGrid(grid);
+
             setupEnemies(enemies, grid);
             setTreasureCell(treasures, grid);
             setPowerCell(powers, grid);
             setUserCell(0, 0, grid);
-            DrawGrid(grid);
+        }
+
+
+        private void clearGrid(char[,] level)
+        {
+            grid = level;
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    grid[x, y] = Level.EMPTY;
+                }
+            }
         }
 
         public int GridX
@@ -140,71 +153,9 @@ namespace _2DGame.Levels
             }
         }
 
-        public static void DrawGrid(char[,] Xgrid)
-        {
-            Console.SetCursorPosition(0, 0);
-            for (int x = 0; x < Xgrid.GetLength(0); x++)
-            {
-                for (int y = 0; y < Xgrid.GetLength(1); y++)
-                {
-                    if (Xgrid[x, y] == PLAYER)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                    }
-                    else if (Xgrid[x, y] == TREASURE)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                    }
-                    else if (Xgrid[x, y] == ENEMY)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    }
-                    else if (Xgrid[x, y] == POWER)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                    }
-                    else if (Xgrid[x, y] == EXIT)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                    }
-                    else if (Xgrid[x, y] == EMPTY)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                    }
-                    Console.Write(Xgrid[x, y]);
-                    Console.ResetColor();
-
-                    if (y == Xgrid.GetLength(1) - 1)
-                    {
-                        Console.WriteLine();
-                    }
-                }
-            }
-            if (Counter.Second == 60)
-            {
-                //There is an issue with the time shortening down to 3 digits instead of 4.  Leftover 0
-                Console.Write("\r{0}:00", Counter.Minute);
-            }
-            else
-            {
-                Console.Write("\r{0:D1}:{1:D2}", Counter.Minute, Counter.Second);
-            }
-        }
-
-        public static void setGrid(char[,] level)
-        {
-            for (int x = 0; x < level.GetLength(0); x++)
-            {
-                for (int y = 0; y < level.GetLength(1); y++)
-                {
-                   level[x, y] = EMPTY;
-                }
-            }
-        }
-
         //When to use static vs. non static
         //More than one random position but only need to static method to set treasure cells
-        public static void setTreasureCell(List<Treasure> treasures, char[,] level)
+        public void setTreasureCell(List<Treasure> treasures, char[,] level)
         {
             grid = level;
             foreach (Treasure Gem in treasures)
@@ -225,13 +176,13 @@ namespace _2DGame.Levels
             //grid[row, col] = TREASURE;
         }
 
-        public static void setExit(int row, int col)
+        public void setExit(int row, int col)
         {
             //exitCell[row, col] = true;
             grid[row, col] = EXIT;
         }
 
-        public static void setPowerCell(List<PowerUp> Powers, char[,] level)
+        public void setPowerCell(List<PowerUp> Powers, char[,] level)
         {
             grid = level;
             foreach (PowerUp Invincible in Powers)
@@ -240,7 +191,7 @@ namespace _2DGame.Levels
             }
         }
 
-        public static void setupEnemies(List<Enemy> Enemies, char[,] level)
+        public void setupEnemies(List<Enemy> Enemies, char[,] level)
         {
             grid = level;
             foreach (Enemy Opponent in Enemies)
@@ -249,45 +200,45 @@ namespace _2DGame.Levels
             }
         }
 
-        public static void setPowerCellUsed(int row, int col)
+        public void setPowerCellUsed(int row, int col)
         {
             //powerCell[row, col] = false;
             grid[row, col] = EMPTY;
         }
 
-        public static void setUserCell(int row, int col, char[,] level)
+        public void setUserCell(int row, int col, char[,] level)
         {
             grid = level;
             //userCell[row, col] = true;
             grid[row, col] = PLAYER;
         }
 
-        public static void setPrevUserCell(int row, int col)
+        public void setPrevUserCell(int row, int col)
         {
             //userCell[row, col] = false;
             grid[row, col] = EMPTY;
         }
 
-        public static void setTreasureCellFound(int row, int col)
+        public void setTreasureCellFound(int row, int col)
         {
             //treasureCell[row, col] = false;
             grid[row, col] = EMPTY;
             
         }
 
-        public static void setEnemyCell(int row, int col)
+        public void setEnemyCell(int row, int col)
         {
             //enemyCell[row, col] = true;
             grid[row, col] = ENEMY;
         }
 
-        public static void setPrevEnemyCell(int row, int col)
+        public void setPrevEnemyCell(int row, int col)
         {
             //enemyCell[row, col] = false;
             grid[row, col] = EMPTY;
         }
 
-        public static void setBoardCell(int row, int col, char element)
+        public void setBoardCell(int row, int col, char element)
         {
             //Lock the grid variable
             grid[row, col] = element;

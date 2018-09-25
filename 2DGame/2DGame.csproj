@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,6 +42,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataParsers\CustomDataParser.cs" />
@@ -47,8 +50,12 @@
     <Compile Include="Enemies\ICombatant.cs" />
     <Compile Include="Countdown.cs" />
     <Compile Include="Enemies\Enemy.cs" />
+    <Compile Include="Game\ConsoleRenderer.cs" />
     <Compile Include="Game\GameEngine.cs" />
+    <Compile Include="Game\GuiRenderer.cs" />
     <Compile Include="Game\IGameEngine.cs" />
+    <Compile Include="Game\ImageGUIRenderer.cs" />
+    <Compile Include="Game\IRenderer.cs" />
     <Compile Include="Game\TurnBasedGameEngine.cs" />
     <Compile Include="Obstacles\IObstacle.cs" />
     <Compile Include="Levels\ILevel.cs" />
@@ -64,6 +71,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GUITest\GUITest\GUITest.csproj">
+      <Project>{58a7eb0a-e3f7-4480-a807-69f80aec4c43}</Project>
+      <Name>GUITest</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
