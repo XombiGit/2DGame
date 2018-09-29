@@ -112,7 +112,7 @@ namespace _2DGame.Game
                                 Console.WriteLine("Enemy destroyed");
                                 //Level.setPrevEnemyCell(nemeses[i].currX, nemeses[i].currY);
 
-                                level.setBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
+                                level.SetBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
                                 nemeses.Remove(nemeses[i]);
                                 score += 100;
 
@@ -151,34 +151,34 @@ namespace _2DGame.Game
                         Console.WriteLine(error);
                         Thread.Sleep(1000);
                         Player.currX = Player.currX + 1;
-                        level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                     }
                     else if (Player.currY < 0)
                     {
                         Console.WriteLine(error);
                         Thread.Sleep(1000);
                         Player.currY = Player.currY + 1;
-                        level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                     }
-                    else if (Player.currX >= (level.grid.GetLength(0)))
+                    else if (Player.currX >= (level.Grid.GetLength(0)))
                     {
                         Console.WriteLine(error);
                         Thread.Sleep(1000);
                         Player.currX = Player.currX - 1;
-                        level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                     }
-                    else if (Player.currY >= (level.grid.GetLength(0)))
+                    else if (Player.currY >= (level.Grid.GetLength(0)))
                     {
                         Console.WriteLine(error);
                         Thread.Sleep(1000);
                         Player.currY = Player.currY - 1;
-                        level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                     }
                     else
                     {
                         //Level.setPrevUserCell(Player.prevX, Player.prevY);
                         //Level.setUserCell(Player.currX, Player.currY);
-                        if (level.grid[Player.currX, Player.currY] == Level.TREASURE)
+                        if (level.Grid[Player.currX, Player.currY] == Level.TREASURE)
                         {
                             //Level.setTreasureCellFound(Player.currX, Player.currY);
                             //Level.setBoardCell(Player.currX, Player.currY, Level.EMPTY);
@@ -188,12 +188,12 @@ namespace _2DGame.Game
                             {
                                 //winGame = true;
                                 //CheckGameOutcome();
-                                //Level.setExit(Level.grid.GetLength(0) - 1, Level.grid.GetLength(0) - 1);
-                                level.setBoardCell(level.grid.GetLength(0) - 1, level.grid.GetLength(0) - 1, Level.EXIT);
+                                //Level.setExit(Level.Grid.GetLength(0) - 1, Level.Grid.GetLength(0) - 1);
+                                level.SetBoardCell(level.Grid.GetLength(0) - 1, level.Grid.GetLength(0) - 1, Level.EXIT);
                             }
                         }
 
-                        if (level.grid[Player.currX, Player.currY] == Level.POWER)
+                        if (level.Grid[Player.currX, Player.currY] == Level.POWER)
                         {
                             //Level.setPowerCellUsed(Player.currX, Player.currY);
                             //Level.setBoardCell(Player.currX, Player.currY, Level.EMPTY);
@@ -201,14 +201,14 @@ namespace _2DGame.Game
                             Player.invincible = true;
                         }
 
-                        if (level.grid[Player.currX, Player.currY] == Level.EXIT)
+                        if (level.Grid[Player.currX, Player.currY] == Level.EXIT)
                         {
                             exitFound = true;
                             winGame = true;
                         }
 
-                        level.setBoardCell(Player.prevX, Player.prevY, Level.EMPTY);
-                        level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                        level.SetBoardCell(Player.prevX, Player.prevY, Level.EMPTY);
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                     }
 
                     for (int i = nemeses.Count - 1; i >= 0; i--)
@@ -226,7 +226,7 @@ namespace _2DGame.Game
                                 //how to destroy an object 
                                 Console.WriteLine("Enemy destroyed");
                                 //Level.setPrevEnemyCell(nemeses[i].currX, nemeses[i].currY);
-                                level.setBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
+                                level.SetBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
                                 nemeses.Remove(nemeses[i]);
                                 score += 100;
                             }
@@ -264,11 +264,16 @@ namespace _2DGame.Game
             }
             else if (endGame == true)
             {
-                level.setBoardCell(Player.currX, Player.currY, Level.ENEMY);
+                level.SetBoardCell(Player.currX, Player.currY, Level.ENEMY);
                 _renderer.DrawGrid(level);
                 Console.WriteLine("An enemy has destroyed you.  You have lost the game. :(");
                 Console.ReadLine();
             }
+        }
+
+        public ILevel LoadLevelFromFile()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -16,42 +16,42 @@ namespace _2DGame.Game
             _window = window;
         }
 
-        public void DrawGrid(Level level)
+        public void DrawGrid(ILevel level)
         {
             _window.Dispatcher.Invoke(() =>
             {
-                for (int x = 0; x < level.grid.GetLength(0); x++)
+                for (int x = 0; x < level.Grid.GetLength(0); x++)
                 {
-                    for (int y = 0; y < level.grid.GetLength(1); y++)
+                    for (int y = 0; y < level.Grid.GetLength(1); y++)
                     {
-                        if (level.grid[x, y] == Level.PLAYER)
+                        if (level.Grid[x, y] == Level.PLAYER)
                         {
                             _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkOrange;
                         }
-                        else if (level.grid[x, y] == Level.TREASURE)
+                        else if (level.Grid[x, y] == Level.TREASURE)
                         {
                             _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.YellowGreen;
                         }
-                        else if (level.grid[x, y] == Level.ENEMY)
+                        else if (level.Grid[x, y] == Level.ENEMY)
                         {
                             _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkRed;
                         }
-                        else if (level.grid[x, y] == Level.POWER)
+                        else if (level.Grid[x, y] == Level.POWER)
                         {
                             _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkBlue;
                         }
-                        else if (level.grid[x, y] == Level.EXIT)
+                        else if (level.Grid[x, y] == Level.EXIT)
                         {
                             _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkMagenta;
                         }
-                        else if (level.grid[x, y] == Level.EMPTY)
+                        else if (level.Grid[x, y] == Level.EMPTY)
                         {
                             _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.GhostWhite;
                         }
-                        _window.Labels[x,y].Content = level.grid[x, y];
+                        _window.Labels[x,y].Content = level.Grid[x, y];
                         //Console.ResetColor();
 
-                        if (y == level.grid.GetLength(1) - 1)
+                        if (y == level.Grid.GetLength(1) - 1)
                         {
                             //Console.WriteLine();
                         }
@@ -69,5 +69,6 @@ namespace _2DGame.Game
             });
 
         }
+
     }
 }

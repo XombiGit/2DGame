@@ -16,43 +16,41 @@ namespace _2DGame.Game
             Counter = new Countdown(3, 60, false);
         }
 
-
-
-        public void DrawGrid(Level level)
+        public void DrawGrid(ILevel level)
         {
             Console.SetCursorPosition(0, 0);
-            for (int x = 0; x < level.grid.GetLength(0); x++)
+            for (int x = 0; x < level.Grid.GetLength(0); x++)
             {
-                for (int y = 0; y < level.grid.GetLength(1); y++)
+                for (int y = 0; y < level.Grid.GetLength(1); y++)
                 {
-                    if (level.grid[x, y] == Level.PLAYER)
+                    if (level.Grid[x, y] == Level.PLAYER)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                     }
-                    else if (level.grid[x, y] == Level.TREASURE)
+                    else if (level.Grid[x, y] == Level.TREASURE)
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                     }
-                    else if (level.grid[x, y] == Level.ENEMY)
+                    else if (level.Grid[x, y] == Level.ENEMY)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                     }
-                    else if (level.grid[x, y] == Level.POWER)
+                    else if (level.Grid[x, y] == Level.POWER)
                     {
                         Console.ForegroundColor = ConsoleColor.Cyan;
                     }
-                    else if (level.grid[x, y] == Level.EXIT)
+                    else if (level.Grid[x, y] == Level.EXIT)
                     {
                         Console.ForegroundColor = ConsoleColor.Magenta;
                     }
-                    else if (level.grid[x, y] == Level.EMPTY)
+                    else if (level.Grid[x, y] == Level.EMPTY)
                     {
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
-                    Console.Write(level.grid[x, y]);
+                    Console.Write(level.Grid[x, y]);
                     Console.ResetColor();
 
-                    if (y == level.grid.GetLength(1) - 1)
+                    if (y == level.Grid.GetLength(1) - 1)
                     {
                         Console.WriteLine();
                     }

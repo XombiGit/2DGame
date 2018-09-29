@@ -27,7 +27,7 @@ namespace _2DGame.Levels
         public static int length = 0;
         public static int width = 0;
         public int LevelNum = 0;
-        public char[,] grid;
+        char[,] grid;
 
         static Random numGen = new Random();
         int pos = numGen.Next(20);
@@ -42,10 +42,10 @@ namespace _2DGame.Levels
 
             clearGrid(grid);
 
-            setupEnemies(enemies, grid);
-            setTreasureCell(treasures, grid);
-            setPowerCell(powers, grid);
-            setUserCell(0, 0, grid);
+            SetupEnemies(enemies, grid);
+            SetTreasureCell(treasures, grid);
+            SetPowerCell(powers, grid);
+            SetUserCell(0, 0, grid);
         }
 
 
@@ -153,9 +153,22 @@ namespace _2DGame.Levels
             }
         }
 
+        public char[,] Grid
+        {
+            get
+            {
+                return grid;
+            }
+
+            set
+            {
+                grid = value;
+            }
+        }
+
         //When to use static vs. non static
         //More than one random position but only need to static method to set treasure cells
-        public void setTreasureCell(List<Treasure> treasures, char[,] level)
+        public void SetTreasureCell(List<Treasure> treasures, char[,] level)
         {
             grid = level;
             foreach (Treasure Gem in treasures)
@@ -176,13 +189,13 @@ namespace _2DGame.Levels
             //grid[row, col] = TREASURE;
         }
 
-        public void setExit(int row, int col)
+        public void SetExit(int row, int col)
         {
             //exitCell[row, col] = true;
             grid[row, col] = EXIT;
         }
 
-        public void setPowerCell(List<PowerUp> Powers, char[,] level)
+        public void SetPowerCell(List<PowerUp> Powers, char[,] level)
         {
             grid = level;
             foreach (PowerUp Invincible in Powers)
@@ -191,7 +204,7 @@ namespace _2DGame.Levels
             }
         }
 
-        public void setupEnemies(List<Enemy> Enemies, char[,] level)
+        public void SetupEnemies(List<Enemy> Enemies, char[,] level)
         {
             grid = level;
             foreach (Enemy Opponent in Enemies)
@@ -200,45 +213,20 @@ namespace _2DGame.Levels
             }
         }
 
-        public void setPowerCellUsed(int row, int col)
-        {
-            //powerCell[row, col] = false;
-            grid[row, col] = EMPTY;
-        }
-
-        public void setUserCell(int row, int col, char[,] level)
+        public void SetUserCell(int row, int col, char[,] level)
         {
             grid = level;
             //userCell[row, col] = true;
             grid[row, col] = PLAYER;
         }
 
-        public void setPrevUserCell(int row, int col)
+        public void SetPrevUserCell(int row, int col)
         {
             //userCell[row, col] = false;
             grid[row, col] = EMPTY;
         }
 
-        public void setTreasureCellFound(int row, int col)
-        {
-            //treasureCell[row, col] = false;
-            grid[row, col] = EMPTY;
-            
-        }
-
-        public void setEnemyCell(int row, int col)
-        {
-            //enemyCell[row, col] = true;
-            grid[row, col] = ENEMY;
-        }
-
-        public void setPrevEnemyCell(int row, int col)
-        {
-            //enemyCell[row, col] = false;
-            grid[row, col] = EMPTY;
-        }
-
-        public void setBoardCell(int row, int col, char element)
+        public void SetBoardCell(int row, int col, char element)
         {
             //Lock the grid variable
             grid[row, col] = element;

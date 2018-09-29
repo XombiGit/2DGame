@@ -14,6 +14,6 @@ namespace _2DGame.Players
         int prevRow { get; set; }
         int prevCol { get; set; }
 
-        void MoveCombatant(Level level, int row, int col, string move);
+        void MoveCombatant(ILevel level, int row, int col, string move);
     }
 }

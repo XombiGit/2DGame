@@ -34,13 +34,13 @@ namespace _2DGame
             else
             {
 
-                LevelWindow test = new LevelWindow();
-                test.Show();
+                //LevelWindow test = new LevelWindow();
+                //test.Show();
 
-                //GraphicsWindow testy = new GraphicsWindow();
-                //testy.Show();
-                renderer = new GuiRenderer(test);
-                //renderer = new ImageGUIRenderer(testy);
+                GraphicsWindow testy = new GraphicsWindow();
+                testy.Show();
+                //renderer = new GuiRenderer(test);
+                renderer = new ImageGUIRenderer(testy);
             }
 
             Thread gameThread = new Thread(() => StartGame(renderer));

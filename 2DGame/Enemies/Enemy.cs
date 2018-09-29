@@ -107,7 +107,7 @@ namespace _2DGame.Enemies
             }
         }
 
-        public void MoveCombatant(Level level, int row, int col, EnemyType enemy)
+        public void MoveCombatant(ILevel level, int row, int col, EnemyType enemy)
         {
             Thread current = Thread.CurrentThread;
             nemesis = enemy;
@@ -136,7 +136,7 @@ namespace _2DGame.Enemies
             }
         }
 
-        public void randomEnemyMove(Level level, int row, int col)
+        public void randomEnemyMove(ILevel level, int row, int col)
         {
             currX = row;
             currY = col;
@@ -147,7 +147,7 @@ namespace _2DGame.Enemies
 
             if(pos == 0)
             {
-                if (currX != level.grid.GetLength(0)-1)
+                if (currX != level.Grid.GetLength(0)-1)
                 {
                     currX += 1;
                 }
@@ -158,7 +158,7 @@ namespace _2DGame.Enemies
             }
             else if(pos == 1)
             {
-                if (currY != level.grid.GetLength(0)-1)
+                if (currY != level.Grid.GetLength(0)-1)
                 {
                     currY += 1;
                 }
@@ -193,7 +193,7 @@ namespace _2DGame.Enemies
             checkForNonPlayerCell(level, prevX, prevY, currX, currY);
         }
 
-        public void verticalEnemyMove(Level level, int row, int col)
+        public void verticalEnemyMove(ILevel level, int row, int col)
         {
             currX = row;
             prevX = currX;
@@ -201,14 +201,14 @@ namespace _2DGame.Enemies
 
             if (dirVert == false)
             {
-                if (currX != level.grid.GetLength(0) - 1)
+                if (currX != level.Grid.GetLength(0) - 1)
                 {
                     currX += 1;
                     //Level.setPrevEnemyCell(prevX, 6);
                     //Level.setEnemyCell(currX, 6);
                     checkForNonPlayerCell(level, prevX, currY, currX, currY);
                 }
-                else if (currX == level.grid.GetLength(0) - 1)
+                else if (currX == level.Grid.GetLength(0) - 1)
                 {
                     dirVert = true;
                     prevX++;
@@ -229,7 +229,7 @@ namespace _2DGame.Enemies
             }
         }
 
-        public void horizontalEnemyMove(Level level, int row, int col)
+        public void horizontalEnemyMove(ILevel level, int row, int col)
         {
             currY = col;
             prevY = currY;
@@ -237,14 +237,14 @@ namespace _2DGame.Enemies
 
             if (dirHoriz == false)
             {
-                if (currY != level.grid.GetLength(0) - 1)
+                if (currY != level.Grid.GetLength(0) - 1)
                 {
                     currY += 1;
                     //Level.setPrevEnemyCell(8, prevY);
                     //Level.setEnemyCell(8, currY);
                     checkForNonPlayerCell(level, currX, prevY, currX, currY);
                 }
-                else if (currY == level.grid.GetLength(0) - 1)
+                else if (currY == level.Grid.GetLength(0) - 1)
                 {
                     dirHoriz = true;
                     //Level.setPrevEnemyCell(8, currY);
@@ -271,7 +271,7 @@ namespace _2DGame.Enemies
             }
         }
 
-        public void checkForNonPlayerCell(Level level, int lastX, int lastY, int presentX, int presentY)
+        public void checkForNonPlayerCell(ILevel level, int lastX, int lastY, int presentX, int presentY)
         {
             currX = presentX;
             currY = presentY;
@@ -280,33 +280,33 @@ namespace _2DGame.Enemies
 
             if(treasureUnchanged == true)
             {
-                level.setBoardCell(prevX, prevY, Level.TREASURE);
-                level.setBoardCell(currX, currY, Level.ENEMY);
+                level.SetBoardCell(prevX, prevY, Level.TREASURE);
+                level.SetBoardCell(currX, currY, Level.ENEMY);
                 treasureUnchanged = false;
             }
             else if (powerUnchanged == true)
             {
-                level.setBoardCell(prevX, prevY, Level.POWER);
-                level.setBoardCell(currX, currY, Level.ENEMY);
+                level.SetBoardCell(prevX, prevY, Level.POWER);
+                level.SetBoardCell(currX, currY, Level.ENEMY);
                 powerUnchanged = false;
             }
-            else if (level.grid[currX, currY] == Level.TREASURE)
+            else if (level.Grid[currX, currY] == Level.TREASURE)
             {
-                level.setBoardCell(prevX, prevY, Level.EMPTY);
-                level.setBoardCell(currX, currY, Level.ENEMY);
+                level.SetBoardCell(prevX, prevY, Level.EMPTY);
+                level.SetBoardCell(currX, currY, Level.ENEMY);
                 treasureUnchanged = true;
 
             }
-            else if (level.grid[currX, currY] == Level.POWER)
+            else if (level.Grid[currX, currY] == Level.POWER)
             {
-                level.setBoardCell(prevX, prevY, Level.EMPTY);
-                level.setBoardCell(currX, currY, Level.ENEMY);
+                level.SetBoardCell(prevX, prevY, Level.EMPTY);
+                level.SetBoardCell(currX, currY, Level.ENEMY);
                 powerUnchanged = true;
             }
             else
             {
-                level.setBoardCell(prevX, prevY, Level.EMPTY);
-                level.setBoardCell(currX, currY, Level.ENEMY);
+                level.SetBoardCell(prevX, prevY, Level.EMPTY);
+                level.SetBoardCell(currX, currY, Level.ENEMY);
             }
         }
     }

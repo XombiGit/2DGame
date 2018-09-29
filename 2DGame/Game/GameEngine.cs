@@ -54,40 +54,20 @@ namespace _2DGame.Game
 
         public void Initiate()
         {
-            CustomDataParser Parser = new CustomDataParser();
-            string[] Filename = Parser.ReadFile(DataFile);
-            int Count = Parser.ParseLevel(Filename);
+            Player player = new Player(0, 0);
 
-                finish = false;
-                Player player = new Player(0, 0);
 
-                TreasureMax = Parser.ParseTreasureCount(Filename);
-                TreasureTotal = TreasureMax.ElementAt(LevelNum);
-
-                Cells = Parser.ParseGridSize(Filename);
-                Matrix = Cells.ElementAt(LevelNum);
-
-                ArchEnemy = Parser.ParseEnemies(Filename);
-                nemeses = ArchEnemy.ElementAt(LevelNum);
-
-                Cache = Parser.ParseTreasure(Filename);
-                valuables = Cache.ElementAt(LevelNum);
-
-                Booster = Parser.ParsePower(Filename);
-                abilities = Booster.ElementAt(LevelNum);
-
-                Level level = new Level(Matrix, nemeses, valuables, abilities);
-
+            ILevel level = LoadLevelFromFile();
                 _renderer.DrawGrid(level);
 
-            if(EndThread == true)
-            {
-                enemyThread.Abort();
-                playerThread.Abort();
-                //levelThread.Abort();
-                counterThread.Abort();
-                EndThread = false;
-            }
+            //if(EndThread == true)
+            //{
+            //    enemyThread.Abort();
+            //    playerThread.Abort();
+            //    //levelThread.Abort();
+            //    counterThread.Abort();
+            //    EndThread = false;
+            //}
             //
             // Starting enemy thread
             // This is confusing, I need an enemy object to run the thread ??????
@@ -123,7 +103,7 @@ namespace _2DGame.Game
         /// <summary>
         /// Function that happens in the UpdatePlayer thread
         /// </summary>
-        public static void UpdatePlayer(Level level, Player player)
+        public static void UpdatePlayer(ILevel level, Player player)
         {
             while (finish != true)
             {
@@ -135,7 +115,7 @@ namespace _2DGame.Game
         /// <summary>
         /// Function that happens in the UpdateEnemy Thread
         /// </summary>
-        public static void UpdateEnemyThread(Level level)
+        public static void UpdateEnemyThread(ILevel level)
         {
             while (finish != true)
             {
@@ -153,7 +133,7 @@ namespace _2DGame.Game
         /// Function that redraws the level
         /// </summary>
 
-        public void UpdateLevel(Level level)
+        public void UpdateLevel(ILevel level)
         {
             while (finish != true)
             {
@@ -182,7 +162,7 @@ namespace _2DGame.Game
                         else
                         {
                             Console.WriteLine("Enemy destroyed");
-                            level.setBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
+                            level.SetBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
                             nemeses.Remove(nemeses[i]);
                             score += 100;
                             enemyDestroyed = true;
@@ -195,55 +175,55 @@ namespace _2DGame.Game
                     Console.WriteLine(error);
                     Thread.Sleep(1000);
                     Player.currX = Player.currX + 1;
-                    level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                 }
                 else if (Player.currY < 0)
                 {
                     Console.WriteLine(error);
                     Thread.Sleep(1000);
                     Player.currY = Player.currY + 1;
-                    level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                 }
-                else if (Player.currX >= (level.grid.GetLength(0)))
+                else if (Player.currX >= (level.Grid.GetLength(0)))
                 {
                     Console.WriteLine(error);
                     Thread.Sleep(1000);
                     Player.currX = Player.currX - 1;
-                    level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                 }
-                else if (Player.currY >= (level.grid.GetLength(0)))
+                else if (Player.currY >= (level.Grid.GetLength(0)))
                 {
                     Console.WriteLine(error);
                     Thread.Sleep(1000);
                     Player.currY = Player.currY - 1;
-                    level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                 }
                 else
                 {
-                    if (level.grid[Player.currX, Player.currY] == Level.TREASURE)
+                    if (level.Grid[Player.currX, Player.currY] == Level.TREASURE)
                     {
                         treasureCount++;
               
                         if (treasureCount == TreasureTotal)
                         {
-                            level.setBoardCell(level.grid.GetLength(0) - 1, level.grid.GetLength(0) - 1, Level.EXIT);
+                            level.SetBoardCell(level.Grid.GetLength(0) - 1, level.Grid.GetLength(0) - 1, Level.EXIT);
                         }
                     }
 
-                    if (level.grid[Player.currX, Player.currY] == Level.POWER)
+                    if (level.Grid[Player.currX, Player.currY] == Level.POWER)
                     {
                         powerFound = true;
                         Player.invincible = true;
                     }
 
-                    if (level.grid[Player.currX, Player.currY] == Level.EXIT)
+                    if (level.Grid[Player.currX, Player.currY] == Level.EXIT)
                     {
                         exitFound = true;
                         winGame = true;
                     }
 
-                    level.setBoardCell(Player.prevX, Player.prevY, Level.EMPTY);
-                    level.setBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                    level.SetBoardCell(Player.prevX, Player.prevY, Level.EMPTY);
+                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                 }
 
                 for (int i = nemeses.Count - 1; i >= 0; i--)
@@ -259,7 +239,7 @@ namespace _2DGame.Game
                         else
                         {
                             Console.WriteLine("Enemy destroyed");
-                            level.setBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
+                            level.SetBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
                             nemeses.Remove(nemeses[i]);
                             score += 100;
                             enemyDestroyed = true;
@@ -290,7 +270,7 @@ namespace _2DGame.Game
             }
         }
 
-        public void CheckGameOutcome(Level level)
+        public void CheckGameOutcome(ILevel level)
         {
             //Level level = null;
 
@@ -310,7 +290,7 @@ namespace _2DGame.Game
             }
             else if (endGame == true)
             {
-                level.setBoardCell(Player.currX, Player.currY, Level.ENEMY);
+                level.SetBoardCell(Player.currX, Player.currY, Level.ENEMY);
                 _renderer.DrawGrid(level);
                 Console.WriteLine("An enemy has destroyed you.  You have lost the game. :(");
                 Console.ReadLine();
@@ -320,6 +300,32 @@ namespace _2DGame.Game
                 Console.WriteLine("You ran out of time. GAME OVER !!!");
                 Console.ReadLine();
             }
+        }
+
+        public ILevel LoadLevelFromFile()
+        {
+            CustomDataParser Parser = new CustomDataParser();
+            string[] Filename = Parser.ReadFile(DataFile);
+            int Count = Parser.ParseLevel(Filename);
+
+            finish = false;
+
+            TreasureMax = Parser.ParseTreasureCount(Filename);
+            TreasureTotal = TreasureMax.ElementAt(LevelNum);
+
+            Cells = Parser.ParseGridSize(Filename);
+            Matrix = Cells.ElementAt(LevelNum);
+
+            ArchEnemy = Parser.ParseEnemies(Filename);
+            nemeses = ArchEnemy.ElementAt(LevelNum);
+
+            Cache = Parser.ParseTreasure(Filename);
+            valuables = Cache.ElementAt(LevelNum);
+
+            Booster = Parser.ParsePower(Filename);
+            abilities = Booster.ElementAt(LevelNum);
+
+            return new Level(Matrix, nemeses, valuables, abilities);
         }
     }
 }

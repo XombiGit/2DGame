@@ -72,12 +72,12 @@ namespace _2DGame
             }
         }
 
-        public void MoveCombatant(Level level, int row, int col, string move)
+        public void MoveCombatant(ILevel level, int row, int col, string move)
         {
 
             prevX = row;
             prevY = col;
-            level.setPrevUserCell(Player.prevX, Player.prevY);
+            level.SetPrevUserCell(Player.prevX, Player.prevY);
 
 
             switch (move)
