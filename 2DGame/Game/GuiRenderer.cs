@@ -1,12 +1,16 @@
 ﻿using _2DGame.Levels;
 using GUITest;
+using System.Reflection.Emit;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace _2DGame.Game
 {
     class GuiRenderer : IRenderer
     {
+        //public Grid DynamicGrid = new Grid();
+        public System.Windows.Controls.Label[,] Labels;
         public Countdown Counter { get; set; }
 
         LevelWindow _window;
@@ -14,6 +18,27 @@ namespace _2DGame.Game
         public GuiRenderer(LevelWindow window)
         {
             _window = window;
+        }
+
+        public void InitWindow(ILevel level)
+        {
+            Labels = new System.Windows.Controls.Label[level.Grid.GetLength(0), level.Grid.GetLength(1)];
+
+            for (int i = 0; i < level.Grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < level.Grid.GetLength(1); j++)
+                {
+                    System.Windows.Controls.Label label1 = new System.Windows.Controls.Label();
+                    //label1.Content = 1;
+                    Labels[i, j] = label1;
+                    label1.VerticalAlignment = VerticalAlignment.Center;
+                    label1.HorizontalAlignment = HorizontalAlignment.Center;
+                    label1.FontSize = 20;
+                    Grid.SetColumn(label1, j);
+                    Grid.SetRow(label1, i);
+                    LevelWindow.DynamicGrid.Children.Add(label1);
+                }
+            }
         }
 
         public void DrawGrid(ILevel level)

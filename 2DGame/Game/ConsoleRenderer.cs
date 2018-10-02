@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using _2DGame.Levels;
 
@@ -18,53 +19,66 @@ namespace _2DGame.Game
 
         public void DrawGrid(ILevel level)
         {
-            Console.SetCursorPosition(0, 0);
-            for (int x = 0; x < level.Grid.GetLength(0); x++)
+            lock(level)
             {
-                for (int y = 0; y < level.Grid.GetLength(1); y++)
+                Console.SetCursorPosition(0, 0);
+                for (int x = 0; x < level.Grid.GetLength(0); x++)
                 {
-                    if (level.Grid[x, y] == Level.PLAYER)
+                    for (int y = 0; y < level.Grid.GetLength(1); y++)
                     {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                    }
-                    else if (level.Grid[x, y] == Level.TREASURE)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                    }
-                    else if (level.Grid[x, y] == Level.ENEMY)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    }
-                    else if (level.Grid[x, y] == Level.POWER)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                    }
-                    else if (level.Grid[x, y] == Level.EXIT)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                    }
-                    else if (level.Grid[x, y] == Level.EMPTY)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                    }
-                    Console.Write(level.Grid[x, y]);
-                    Console.ResetColor();
+                        /*if (level.Grid[x, y] == Level.PLAYER)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        else if (level.Grid[x, y] == Level.TREASURE)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        }
+                        else if (level.Grid[x, y] == Level.ENEMY)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        else if (level.Grid[x, y] == Level.POWER)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if (level.Grid[x, y] == Level.EXIT)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                        }
+                        else if (level.Grid[x, y] == Level.EMPTY)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                        }*/
+                        Console.Write(level.Grid[x, y]);
+                        //Console.ResetColor();
 
-                    if (y == level.Grid.GetLength(1) - 1)
-                    {
-                        Console.WriteLine();
+
+                        if (y == level.Grid.GetLength(1) - 1)
+                        {
+                            Console.Write("\n");
+                        }
                     }
+
+                    Thread.Sleep(1);
+
+                }
+                if (Counter.Second == 60)
+                {
+                    //There is an issue with the time shortening down to 3 digits instead of 4.  Leftover 0
+                    Console.Write("\r{0}:00", Counter.Minute);
+                }
+                else
+                {
+                    //Console.Write("\r{0:D1}:{1:D2}", Counter.Minute, Counter.Second);
                 }
             }
-            if (Counter.Second == 60)
-            {
-                //There is an issue with the time shortening down to 3 digits instead of 4.  Leftover 0
-                Console.Write("\r{0}:00", Counter.Minute);
-            }
-            else
-            {
-                Console.Write("\r{0:D1}:{1:D2}", Counter.Minute, Counter.Second);
-            }
+
+        }
+
+        public void InitWindow(ILevel grid)
+        {
+           
         }
     }
 }

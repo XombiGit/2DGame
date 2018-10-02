@@ -38,8 +38,8 @@ namespace _2DGame.Game
         public char[,] Matrix;
         public readonly IRenderer _renderer;
         string DataFile = @"C:\Users\UnknownUser\Desktop\LevelParameters.txt";
-        public int LevelNum = 0;
-        private Thread enemyThread;
+        public int LevelNum = 1;
+        private Thread enemyThread; 
         private Thread playerThread;
         private Thread levelThread;
         private Thread counterThread;
@@ -54,20 +54,31 @@ namespace _2DGame.Game
 
         public void Initiate()
         {
-            Player player = new Player(0, 0);
+            while (true)
+            {
+                Player player = new Player(0, 0);
 
+                ILevel level = LoadLevelFromFile();
 
-            ILevel level = LoadLevelFromFile();
+                //_renderer.InitWindow(level);
+
                 _renderer.DrawGrid(level);
 
-            //if(EndThread == true)
-            //{
-            //    enemyThread.Abort();
-            //    playerThread.Abort();
-            //    //levelThread.Abort();
-            //    counterThread.Abort();
-            //    EndThread = false;
-            //}
+                winGame = false;
+
+                startThreads(level, player);
+
+                //counterThread.Join();
+                //enemyThread.Join();
+                levelThread.Join();
+                //playerThread.Join();                
+            }
+
+            
+        }
+
+        private void startThreads(ILevel level, Player player)
+        {
             //
             // Starting enemy thread
             // This is confusing, I need an enemy object to run the thread ??????
@@ -75,25 +86,24 @@ namespace _2DGame.Game
             //verticalEnemyThread.Name = "Vertical";
             //verticalEnemyThread.Start();
             enemyThread = new Thread(() => UpdateEnemyThread(level));
-                enemyThread.Name = "Enemies";
-                enemyThread.Start();
+            enemyThread.Name = "Enemies";
+            //enemyThread.Start();
 
-                //
-                // Starting render thread (redraw level)
-                //
-                levelThread = new Thread(() => UpdateLevel(level));
-                levelThread.Name = "Level";
-                levelThread.Start();
+            //
+            // Starting render thread (redraw level)
+            //
+            levelThread = new Thread(() => UpdateLevel(level));
+            levelThread.Name = "Level";
+            levelThread.Start();
 
 
-                playerThread = new Thread(() => UpdatePlayer(level, player));
-                playerThread.Name = "Player";
-                playerThread.Start();
+            playerThread = new Thread(() => UpdatePlayer(level, player));
+            playerThread.Name = "Player";
+            //playerThread.Start();
 
-                counterThread = new Thread(() => UpdateCounter(_renderer.Counter));
-                counterThread.Name = "Counter";
-                counterThread.Start();
-            //}
+            counterThread = new Thread(() => UpdateCounter(_renderer.Counter));
+            counterThread.Name = "Counter";
+            //counterThread.Start();
         }
 
         public static void UpdateCounter(Countdown counter)
@@ -105,10 +115,14 @@ namespace _2DGame.Game
         /// </summary>
         public static void UpdatePlayer(ILevel level, Player player)
         {
-            while (finish != true)
+            while (winGame != true)
             {
                 String control = Console.ReadKey(true).KeyChar.ToString();
-                player.MoveCombatant(level, Player.currX, Player.currY, control);
+                lock (level)
+                {
+                    player.MoveCombatant(level, Player.currX, Player.currY, control);
+                }
+                
             }
         }
 
@@ -117,15 +131,20 @@ namespace _2DGame.Game
         /// </summary>
         public static void UpdateEnemyThread(ILevel level)
         {
-            while (finish != true)
+            while (winGame != true)
             {
-                for(int i = 0; i <= nemeses.Count-1; i++)
+                //lock(level)
                 {
-                    EnemyType type = nemeses[i].enemyType;
-                    nemeses[i].MoveCombatant(level, nemeses[i].currX, nemeses[i].currY, type);
-                    //vertical.MoveCombatant(vertical.currX, vertical.currY, vertical.nemesis);
-                    Thread.Sleep(700);
+                    for (int i = 0; i <= nemeses.Count - 1; i++)
+                    {
+                        EnemyType type = nemeses[i].enemyType;
+                        nemeses[i].MoveCombatant(level, nemeses[i].currX, nemeses[i].currY, type);
+                        //vertical.MoveCombatant(vertical.currX, vertical.currY, vertical.nemesis);
+                    }
                 }
+
+
+                Thread.Sleep(700);
             }
         }
 
@@ -135,7 +154,7 @@ namespace _2DGame.Game
 
         public void UpdateLevel(ILevel level)
         {
-            while (finish != true)
+            while (winGame != true)
             {
                 /*if (Player.invincible == true)
                 {
@@ -150,122 +169,126 @@ namespace _2DGame.Game
                 //TODO - FIX
                 //Level level = new Level(null, null, null, null);
 
-                for (int i = nemeses.Count - 1; i >= 0; i--)
+               // lock (level)
                 {
-                    if (nemeses[i].currX == Player.currX && nemeses[i].currY == Player.currY)
-                    {
-                        if (Player.invincible == false)
-                        {
-                            endGame = true;
-                            CheckGameOutcome(level);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Enemy destroyed");
-                            level.SetBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
-                            nemeses.Remove(nemeses[i]);
-                            score += 100;
-                            enemyDestroyed = true;
-                        }
-                    }
-                }
 
-                if (Player.currX < 0)
-                {
-                    Console.WriteLine(error);
-                    Thread.Sleep(1000);
-                    Player.currX = Player.currX + 1;
-                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
-                }
-                else if (Player.currY < 0)
-                {
-                    Console.WriteLine(error);
-                    Thread.Sleep(1000);
-                    Player.currY = Player.currY + 1;
-                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
-                }
-                else if (Player.currX >= (level.Grid.GetLength(0)))
-                {
-                    Console.WriteLine(error);
-                    Thread.Sleep(1000);
-                    Player.currX = Player.currX - 1;
-                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
-                }
-                else if (Player.currY >= (level.Grid.GetLength(0)))
-                {
-                    Console.WriteLine(error);
-                    Thread.Sleep(1000);
-                    Player.currY = Player.currY - 1;
-                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
-                }
-                else
-                {
-                    if (level.Grid[Player.currX, Player.currY] == Level.TREASURE)
+                    for (int i = nemeses.Count - 1; i >= 0; i--)
                     {
-                        treasureCount++;
-              
-                        if (treasureCount == TreasureTotal)
+                        if (nemeses[i].currX == Player.currX && nemeses[i].currY == Player.currY)
                         {
-                            level.SetBoardCell(level.Grid.GetLength(0) - 1, level.Grid.GetLength(0) - 1, Level.EXIT);
+                            if (Player.invincible == false)
+                            {
+                                endGame = true;
+                                CheckGameOutcome(level);
+                            }
+                            else
+                            {
+                                //Console.WriteLine("Enemy destroyed");
+                                level.SetBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
+                                nemeses.Remove(nemeses[i]);
+                                score += 100;
+                                enemyDestroyed = true;
+                            }
                         }
                     }
 
-                    if (level.Grid[Player.currX, Player.currY] == Level.POWER)
+                    if (Player.currX < 0)
                     {
-                        powerFound = true;
-                        Player.invincible = true;
+                        //Console.WriteLine(error);
+                        Thread.Sleep(1000);
+                        Player.currX = Player.currX + 1;
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                     }
-
-                    if (level.Grid[Player.currX, Player.currY] == Level.EXIT)
+                    else if (Player.currY < 0)
                     {
-                        exitFound = true;
-                        winGame = true;
+                        //Console.WriteLine(error);
+                        Thread.Sleep(1000);
+                        Player.currY = Player.currY + 1;
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
                     }
-
-                    level.SetBoardCell(Player.prevX, Player.prevY, Level.EMPTY);
-                    level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
-                }
-
-                for (int i = nemeses.Count - 1; i >= 0; i--)
-                {
-                    if (nemeses[i].currX == Player.currX && nemeses[i].currY == Player.currY)
+                    else if (Player.currX >= (level.Grid.GetLength(0)))
                     {
-
-                        if (Player.invincible == false)
+                        //Console.WriteLine(error);
+                        Thread.Sleep(1000);
+                        Player.currX = Player.currX - 1;
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                    }
+                    else if (Player.currY >= (level.Grid.GetLength(0)))
+                    {
+                        //Console.WriteLine(error);
+                        Thread.Sleep(1000);
+                        Player.currY = Player.currY - 1;
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                    }
+                    else
+                    {
+                        if (level.Grid[Player.currX, Player.currY] == Level.TREASURE)
                         {
-                            endGame = true;
-                            CheckGameOutcome(level);
+                            treasureCount++;
+
+                            if (treasureCount == TreasureTotal)
+                            {
+                                level.SetBoardCell(level.Grid.GetLength(0) - 1, level.Grid.GetLength(0) - 1, Level.EXIT);
+                            }
                         }
-                        else
+
+                        if (level.Grid[Player.currX, Player.currY] == Level.POWER)
                         {
-                            Console.WriteLine("Enemy destroyed");
-                            level.SetBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
-                            nemeses.Remove(nemeses[i]);
-                            score += 100;
-                            enemyDestroyed = true;
+                            powerFound = true;
+                            Player.invincible = true;
+                        }
+
+                        if (level.Grid[Player.currX, Player.currY] == Level.EXIT)
+                        {
+                            exitFound = true;
+                            winGame = true;
+                        }
+
+                        level.SetBoardCell(Player.prevX, Player.prevY, Level.EMPTY);
+                        level.SetBoardCell(Player.currX, Player.currY, Level.PLAYER);
+                    }
+
+                    for (int i = nemeses.Count - 1; i >= 0; i--)
+                    {
+                        if (nemeses[i].currX == Player.currX && nemeses[i].currY == Player.currY)
+                        {
+
+                            if (Player.invincible == false)
+                            {
+                                endGame = true;
+                                CheckGameOutcome(level);
+                            }
+                            else
+                            {
+                                //Console.WriteLine("Enemy destroyed");
+                                level.SetBoardCell(nemeses[i].currX, nemeses[i].currY, Level.PLAYER);
+                                nemeses.Remove(nemeses[i]);
+                                score += 100;
+                                enemyDestroyed = true;
+                            }
                         }
                     }
-                }
 
-                _renderer.DrawGrid(level);
-                //Thread.Sleep(16);
+                    _renderer.DrawGrid(level);
+                    Thread.Sleep(32);
 
-                if(timeEnd == true)
-                {
-                    CheckGameOutcome(level);
-                }
+                    if (timeEnd == true)
+                    {
+                        CheckGameOutcome(level);
+                    }
 
-                if (powerFound == true)
-                {
-                    powerFound = false;
-                    Console.WriteLine("You are invincible for 5 moves.  Destroy the enemy !!!");
-                    Thread.Sleep(1000);
-                }
+                    if (powerFound == true)
+                    {
+                        powerFound = false;
+                        //Console.WriteLine("You are invincible for 5 moves.  Destroy the enemy !!!");
+                        Thread.Sleep(1000);
+                    }
 
-                if (exitFound == true)
-                {
-                    exitFound = false;
-                    CheckGameOutcome(level);
+                    if (exitFound == true)
+                    {
+                        exitFound = false;
+                        CheckGameOutcome(level);
+                    }
                 }
             }
         }
@@ -276,28 +299,25 @@ namespace _2DGame.Game
 
             if (winGame == true)
             {
-                Console.WriteLine("You collected all treasure and escaped the maze. CONGRATULATIONS champion !!!");
-                Console.WriteLine("Score: {0} points", score);
+                //Console.WriteLine("You collected all treasure and escaped the maze. CONGRATULATIONS champion !!!");
+                //Console.WriteLine("Score: {0} points", score);
                 Thread.Sleep(3000);
                 finish = true;
                 LevelNum++;
-                //enemyThread.Abort();
-                //playerThread.Abort();
-                //levelThread.Abort();
-                //counterThread.Abort();
-                EndThread = true;
-                Initiate();
+
+                winGame = true;
+                _renderer.Counter.Stop();
             }
             else if (endGame == true)
             {
                 level.SetBoardCell(Player.currX, Player.currY, Level.ENEMY);
                 _renderer.DrawGrid(level);
-                Console.WriteLine("An enemy has destroyed you.  You have lost the game. :(");
+                //Console.WriteLine("An enemy has destroyed you.  You have lost the game. :(");
                 Console.ReadLine();
             }
             else if(timeEnd == true)
             {
-                Console.WriteLine("You ran out of time. GAME OVER !!!");
+                //Console.WriteLine("You ran out of time. GAME OVER !!!");
                 Console.ReadLine();
             }
         }

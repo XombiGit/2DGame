@@ -12,5 +12,6 @@ namespace _2DGame.Game
         Countdown Counter { get; set; }
 
         void DrawGrid(ILevel grid);
+        void InitWindow(ILevel grid);
     }
 }

@@ -71,6 +71,7 @@ namespace _2DGame.Game
 
                 Level level = new Level(Matrix, nemeses, valuables, abilities);
 
+                _renderer.InitWindow(level);
                 _renderer.DrawGrid(level);
 
                 while (finish != true)

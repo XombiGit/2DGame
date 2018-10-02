@@ -21,6 +21,11 @@ namespace _2DGame.Game
             _window = window;
         }
 
+        public void InitWindow(ILevel level)
+        {
+            //_window.Images = new System.Windows.Controls.Image()[level.GridX, level.GridY];
+        }
+
         public void DrawGrid(ILevel level)
         {
             _window.Dispatcher.Invoke(() =>

@@ -27,7 +27,7 @@ namespace _2DGame.Levels
         public static int length = 0;
         public static int width = 0;
         public int LevelNum = 0;
-        char[,] grid;
+        public char[,] grid;
 
         static Random numGen = new Random();
         int pos = numGen.Next(20);

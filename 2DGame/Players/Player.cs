@@ -99,7 +99,7 @@ namespace _2DGame
                     break;
 
                 default:
-                    Console.WriteLine("You can only press w(UP), a(LEFT), s(DOWN), and d(RIGHT)");
+                    //Console.WriteLine("You can only press w(UP), a(LEFT), s(DOWN), and d(RIGHT)");
                     System.Threading.Thread.Sleep(3000);
                     break;
             }
