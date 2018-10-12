@@ -13,6 +13,7 @@ using System.Windows;
 using GUITest;
 using System.Threading;
 using System.Windows.Threading;
+using _2DGame.Logging;
 
 namespace _2DGame
 {
@@ -53,8 +54,9 @@ namespace _2DGame
         }
 
         public static void StartGame(IRenderer renderer)
-        {
-            //IGameEngine begin = new GameEngine(renderer);
+        { 
+            Logger logger = new Logger();
+            //IGameEngine begin = new GameEngine(renderer, logger);
             IGameEngine begin = new TurnBasedGameEngine(renderer);
         }
 

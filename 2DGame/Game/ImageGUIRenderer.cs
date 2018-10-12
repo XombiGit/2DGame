@@ -86,5 +86,9 @@ namespace _2DGame.Game
 
         }
 
+        public void ResetGrid(ILevel grid)
+        {
+
+        }
     }
 }

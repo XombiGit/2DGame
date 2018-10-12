@@ -57,6 +57,8 @@
     <Compile Include="Game\ImageGUIRenderer.cs" />
     <Compile Include="Game\IRenderer.cs" />
     <Compile Include="Game\TurnBasedGameEngine.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Obstacles\IObstacle.cs" />
     <Compile Include="Levels\ILevel.cs" />
     <Compile Include="Levels\Level.cs" />
@@ -78,5 +80,6 @@
       <Name>GUITest</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

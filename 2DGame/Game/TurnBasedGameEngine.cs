@@ -260,6 +260,7 @@ namespace _2DGame.Game
                 treasureCount = 0;
                 Console.WriteLine("You collected all treasure and escaped the maze. CONGRATULATIONS champion !!!");
                 Console.WriteLine("Score: {0} points", score);
+                _renderer.ResetGrid(level);
                 Thread.Sleep(3000);
                 finish = true;
             }

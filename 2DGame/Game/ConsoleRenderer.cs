@@ -26,7 +26,7 @@ namespace _2DGame.Game
                 {
                     for (int y = 0; y < level.Grid.GetLength(1); y++)
                     {
-                        /*if (level.Grid[x, y] == Level.PLAYER)
+                        if (level.Grid[x, y] == Level.PLAYER)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
                         }
@@ -49,10 +49,13 @@ namespace _2DGame.Game
                         else if (level.Grid[x, y] == Level.EMPTY)
                         {
                             Console.ForegroundColor = ConsoleColor.Gray;
-                        }*/
-                        Console.Write(level.Grid[x, y]);
-                        //Console.ResetColor();
+                        }
 
+                        //if (level.Grid[x, y] != level.PrevGrid[x, y])
+                        //{
+                            Console.Write(level.Grid[x, y]);
+                            //Console.ResetColor();
+                        //}
 
                         if (y == level.Grid.GetLength(1) - 1)
                         {
@@ -61,8 +64,10 @@ namespace _2DGame.Game
                     }
 
                     Thread.Sleep(1);
-
                 }
+
+                //level.PrevGrid = level.Grid;
+
                 if (Counter.Second == 60)
                 {
                     //There is an issue with the time shortening down to 3 digits instead of 4.  Leftover 0
@@ -77,6 +82,11 @@ namespace _2DGame.Game
         }
 
         public void InitWindow(ILevel grid)
+        {
+           
+        }
+
+        public void ResetGrid(ILevel grid)
         {
            
         }

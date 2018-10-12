@@ -28,6 +28,7 @@ namespace _2DGame.Levels
         public static int width = 0;
         public int LevelNum = 0;
         public char[,] grid;
+        public char[,] lastGrid;
 
         static Random numGen = new Random();
         int pos = numGen.Next(20);
@@ -36,11 +37,13 @@ namespace _2DGame.Levels
         {
 
             grid = GridSize;
-            enemies = Opponents;
-            treasures = Riches;
-            powers = Skills;
+            lastGrid = new char[15,15];
+            enemies = Opponents ?? new List<Enemy>();
+            treasures = Riches ?? new List<Treasure>();
+            powers = Skills ?? new List<PowerUp>();
 
             clearGrid(grid);
+            initgrid(lastGrid);
 
             SetupEnemies(enemies, grid);
             SetTreasureCell(treasures, grid);
@@ -48,7 +51,17 @@ namespace _2DGame.Levels
             SetUserCell(0, 0, grid);
         }
 
-
+        private void initgrid(char[,] level)
+        {
+            lastGrid = level;
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    lastGrid[x, y] = '%';
+                }
+            }
+        }
         private void clearGrid(char[,] level)
         {
             grid = level;
@@ -87,16 +100,16 @@ namespace _2DGame.Levels
             }
         }
 
-        public char[,] LevelGrid
+        public char[,] PrevGrid
         {
             get
             {
-                return grid;
+                return lastGrid;
             }
 
             set
             {
-                grid = value;
+                lastGrid = value;
             }
         }
 
@@ -175,18 +188,8 @@ namespace _2DGame.Levels
             {
                 //treasureCell[row, col] = false;
                 grid[Gem.currX, Gem.currY] = TREASURE;
+                //lastGrid[Gem.currX, Gem.currY] = TREASURE;
             }
-            /*treasureCell[0, 3] = true;
-            treasureCell[9, 7] = true;
-            treasureCell[1, 2] = true;
-            treasureCell[1, 9] = true;
-            treasureCell[5, 3] = true;*/
-            //grid[0, 3] = TREASURE;
-            //grid[8, 9] = TREASURE;
-            //grid[9, 6] = TREASURE;
-            //grid[1, 9] = TREASURE;
-            //grid[5, 3] = TREASURE;
-            //grid[row, col] = TREASURE;
         }
 
         public void SetExit(int row, int col)
@@ -201,6 +204,7 @@ namespace _2DGame.Levels
             foreach (PowerUp Invincible in Powers)
             {//powerCell[row, col] = true;
                 grid[Invincible.currX, Invincible.currY] = POWER;
+                //lastGrid[Invincible.currX, Invincible.currY] = POWER;
             }
         }
 
@@ -210,6 +214,7 @@ namespace _2DGame.Levels
             foreach (Enemy Opponent in Enemies)
             {//powerCell[row, col] = true;
                 grid[Opponent.currX, Opponent.currY] = ENEMY;
+                //lastGrid[Opponent.currX, Opponent.currY] = ENEMY;
             }
         }
 
@@ -218,6 +223,7 @@ namespace _2DGame.Levels
             grid = level;
             //userCell[row, col] = true;
             grid[row, col] = PLAYER;
+            //lastGrid[row, col] = PLAYER;
         }
 
         public void SetPrevUserCell(int row, int col)

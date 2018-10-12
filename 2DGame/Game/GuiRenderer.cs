@@ -11,6 +11,8 @@ namespace _2DGame.Game
     {
         //public Grid DynamicGrid = new Grid();
         public System.Windows.Controls.Label[,] Labels;
+        public RowDefinition[] Rows;
+        public ColumnDefinition[] Cols;
         public Countdown Counter { get; set; }
 
         LevelWindow _window;
@@ -22,23 +24,66 @@ namespace _2DGame.Game
 
         public void InitWindow(ILevel level)
         {
-            Labels = new System.Windows.Controls.Label[level.Grid.GetLength(0), level.Grid.GetLength(1)];
-
-            for (int i = 0; i < level.Grid.GetLength(0); i++)
+            _window.Dispatcher.Invoke(() =>
             {
+                Cols = new ColumnDefinition[level.Grid.GetLength(1)];
+
                 for (int j = 0; j < level.Grid.GetLength(1); j++)
                 {
-                    System.Windows.Controls.Label label1 = new System.Windows.Controls.Label();
-                    //label1.Content = 1;
-                    Labels[i, j] = label1;
-                    label1.VerticalAlignment = VerticalAlignment.Center;
-                    label1.HorizontalAlignment = HorizontalAlignment.Center;
-                    label1.FontSize = 20;
-                    Grid.SetColumn(label1, j);
-                    Grid.SetRow(label1, i);
-                    LevelWindow.DynamicGrid.Children.Add(label1);
+                    Cols[j] = new ColumnDefinition();
+                    LevelWindow.DynamicGrid.ColumnDefinitions.Add(Cols[j]);
                 }
-            }
+                    
+                Rows = new RowDefinition[level.Grid.GetLength(0)];
+
+                for (int i = 0; i < level.Grid.GetLength(0); i++)
+                {
+                    Rows[i] = new RowDefinition();
+                    LevelWindow.DynamicGrid.RowDefinitions.Add(Rows[i]);
+                }
+
+                Labels = new System.Windows.Controls.Label[level.Grid.GetLength(0), level.Grid.GetLength(1)];
+
+                for (int i = 0; i < level.Grid.GetLength(0); i++)
+                {
+                    for (int j = 0; j < level.Grid.GetLength(1); j++)
+                    {
+                        System.Windows.Controls.Label label1 = new System.Windows.Controls.Label();
+                        //label1.Content = 1;
+                        Labels[i, j] = label1;
+                        label1.VerticalAlignment = VerticalAlignment.Center;
+                        label1.HorizontalAlignment = HorizontalAlignment.Center;
+                        label1.FontSize = 20;
+                        Grid.SetColumn(label1, j);
+                        Grid.SetRow(label1, i);
+                        LevelWindow.DynamicGrid.Children.Add(label1);
+                    }
+                }
+            });
+        }
+
+        public void ResetGrid(ILevel level)
+        {
+            _window.Dispatcher.Invoke(() =>
+            {
+                for (int i = 0; i < level.Grid.GetLength(0); i++)
+                {
+                    for (int j = 0; j < level.Grid.GetLength(1); j++)
+                    {
+                        LevelWindow.DynamicGrid.Children.Remove(Labels[i, j]);
+                    }
+                }
+
+                for (int j = 0; j < level.Grid.GetLength(1); j++)
+                {
+                    LevelWindow.DynamicGrid.ColumnDefinitions.Remove(Cols[j]);
+                }
+
+                for (int i = 0; i < level.Grid.GetLength(0); i++)
+                {
+                    LevelWindow.DynamicGrid.RowDefinitions.Remove(Rows[i]);
+                }
+            });
         }
 
         public void DrawGrid(ILevel level)
@@ -51,29 +96,29 @@ namespace _2DGame.Game
                     {
                         if (level.Grid[x, y] == Level.PLAYER)
                         {
-                            _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkOrange;
+                            Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkOrange;
                         }
                         else if (level.Grid[x, y] == Level.TREASURE)
                         {
-                            _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.YellowGreen;
+                            Labels[x, y].Foreground = System.Windows.Media.Brushes.YellowGreen;
                         }
                         else if (level.Grid[x, y] == Level.ENEMY)
                         {
-                            _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkRed;
+                            Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkRed;
                         }
                         else if (level.Grid[x, y] == Level.POWER)
                         {
-                            _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkBlue;
+                            Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkBlue;
                         }
                         else if (level.Grid[x, y] == Level.EXIT)
                         {
-                            _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkMagenta;
+                            Labels[x, y].Foreground = System.Windows.Media.Brushes.DarkMagenta;
                         }
                         else if (level.Grid[x, y] == Level.EMPTY)
-                        {
-                            _window.Labels[x, y].Foreground = System.Windows.Media.Brushes.GhostWhite;
+                        { 
+                            Labels[x, y].Foreground = System.Windows.Media.Brushes.GhostWhite;
                         }
-                        _window.Labels[x,y].Content = level.Grid[x, y];
+                        Labels[x,y].Content = level.Grid[x, y];
                         //Console.ResetColor();
 
                         if (y == level.Grid.GetLength(1) - 1)

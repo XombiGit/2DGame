@@ -13,5 +13,6 @@ namespace _2DGame.Game
 
         void DrawGrid(ILevel grid);
         void InitWindow(ILevel grid);
+        void ResetGrid(ILevel grid);
     }
 }

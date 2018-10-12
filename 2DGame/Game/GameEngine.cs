@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using _2DGame.DataParsers;
 using _2DGame.StationaryItems;
+using _2DGame.Logging;
 
 namespace _2DGame.Game
 {
@@ -38,17 +39,18 @@ namespace _2DGame.Game
         public char[,] Matrix;
         public readonly IRenderer _renderer;
         string DataFile = @"C:\Users\UnknownUser\Desktop\LevelParameters.txt";
-        public int LevelNum = 1;
+        public int LevelNum = 0;
         private Thread enemyThread; 
         private Thread playerThread;
         private Thread levelThread;
         private Thread counterThread;
         public bool EndThread = false;
+        public readonly ILogger _logger;
 
-        public GameEngine(IRenderer renderer)
+        public GameEngine(IRenderer renderer, ILogger logger)
         {
             _renderer = renderer;
-
+            _logger = logger;
             Initiate();
         }
 
@@ -60,21 +62,19 @@ namespace _2DGame.Game
 
                 ILevel level = LoadLevelFromFile();
 
-                //_renderer.InitWindow(level);
-
                 _renderer.DrawGrid(level);
 
                 winGame = false;
 
+                _logger.LogInfo(nameof(GameEngine), nameof(GameEngine.Initiate), $"Starting Level");
+
                 startThreads(level, player);
 
-                //counterThread.Join();
-                //enemyThread.Join();
+                counterThread.Join();
+                enemyThread.Join();
                 levelThread.Join();
-                //playerThread.Join();                
-            }
-
-            
+                playerThread.Join();                
+            }   
         }
 
         private void startThreads(ILevel level, Player player)
@@ -87,7 +87,7 @@ namespace _2DGame.Game
             //verticalEnemyThread.Start();
             enemyThread = new Thread(() => UpdateEnemyThread(level));
             enemyThread.Name = "Enemies";
-            //enemyThread.Start();
+            enemyThread.Start();
 
             //
             // Starting render thread (redraw level)
@@ -99,11 +99,11 @@ namespace _2DGame.Game
 
             playerThread = new Thread(() => UpdatePlayer(level, player));
             playerThread.Name = "Player";
-            //playerThread.Start();
+            playerThread.Start();
 
             counterThread = new Thread(() => UpdateCounter(_renderer.Counter));
             counterThread.Name = "Counter";
-            //counterThread.Start();
+            counterThread.Start();
         }
 
         public static void UpdateCounter(Countdown counter)

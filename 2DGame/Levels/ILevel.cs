@@ -14,6 +14,7 @@ namespace _2DGame.Levels
         int GridX { get; set; }
         int GridY { get; set; }
         char[,] Grid { get; set; }
+        char[,] PrevGrid { get; set; }
         List<Enemy> Foes { get; set; }
         List<Treasure> Gems { get; set; }
         List<PowerUp> Enhancers { get; set; }
